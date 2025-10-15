@@ -753,16 +753,26 @@
                 </div>
             </div>
         </div>
+		
 		<script>
-		  document.addEventListener('DOMContentLoaded', () => {
-		    const colors = ['#FF00FF', '#2980B9', '#27AE60', '#E67E22', '#9B59B6', '#F39C12'];
-		    document.querySelectorAll('.school-name').forEach((el) => {
-		      const randomColor = colors[Math.floor(Math.random() * colors.length)];
-		      el.style.color = randomColor;
-		    });
+		document.addEventListener('DOMContentLoaded', () => {
+		  const colors = ['#2980B9', '#C2185B', '#800000', '#4B0082'];
+		  const icons = ['🏫', '🎓', '⭐', '📍'];
+		
+		  document.querySelectorAll('.school-name').forEach(el => {
+		    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+		    const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+		
+		    const icon = document.createElement('span');
+		    icon.textContent = randomIcon + ' ';
+		    el.prepend(icon);
+		
+		    el.style.color = randomColor;
 		  });
+		});
 		</script>
-        <p style="text-align: center; margin-top: 50px; font-size: 0.85em; color: #7f8c8d;">**หมายเหตุ:** วันที่อาจมีการเปลี่ยนแปลง โปรดตรวจสอบข้อมูลล่าสุดจากประกาศของโรงเรียนโดยตรงอีกครั้ง</p>
+		
+        <p style="text-align: center; margin-top: 50px; font-size: 0.85em; color: #C2185B;">**หมายเหตุ:** วันที่อาจมีการเปลี่ยนแปลง โปรดตรวจสอบข้อมูลล่าสุดจากประกาศของโรงเรียนโดยตรงอีกครั้ง</p>
     </div>
     
     <footer class="text-center mt-12 p-8 bg-white rounded-xl shadow-lg text-gray-700 text-lg font-medium">

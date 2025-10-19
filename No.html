@@ -227,39 +227,38 @@
             box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
         }
         
-        /* Countdown Styling */
+        /* Countdown Styling - Inline version */
         .countdown-container {
+            display: inline-flex;
+            align-items: center;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            border-left: 4px solid #3498db;
-        }
-        .countdown-box {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
+            border-radius: 8px;
+            padding: 8px 12px;
             margin-top: 10px;
+            border-left: 3px solid #3498db;
+            gap: 10px;
         }
         .countdown-item {
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin: 0 5px;
         }
         .countdown-value {
-            font-size: 1.8em;
+            font-size: 1.2em;
             font-weight: bold;
             color: #e74c3c;
             background: white;
-            border-radius: 8px;
-            padding: 8px 12px;
-            min-width: 60px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            border-radius: 6px;
+            padding: 4px 8px;
+            min-width: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
         }
         .countdown-label {
-            font-size: 0.8em;
+            font-size: 0.7em;
             color: #7f8c8d;
-            margin-top: 5px;
+            margin-top: 2px;
             font-weight: 600;
         }
         
@@ -313,21 +312,34 @@
                 font-size: 0.9em;
             }
             
-            .countdown-box {
-                flex-wrap: wrap;
-                gap: 10px;
+            .countdown-container {
+                padding: 6px 10px;
+                gap: 8px;
             }
             
             .countdown-value {
-                font-size: 1.5em;
-                min-width: 50px;
-                padding: 6px 10px;
+                font-size: 1em;
+                min-width: 35px;
+                padding: 3px 6px;
             }
         }
         
         /* Header styling */
-        .header-gradient {
+        .header-main {
             background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header-sub {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header-date {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -385,18 +397,29 @@
             background: #f39c12;
             color: white;
         }
+        
+        /* Header background */
+        .header-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
     </style>
 </head>
 <body class="text-gray-800">
 
     <div class="container mx-auto p-4 md:p-8 max-w-6xl relative z-10">
-        <header class="text-center mb-10">
-            <h2 class="text-4xl md:text-5xl font-bold text-red-700 mt-2 mb-4">ครอบครัวยอดนารี❤️สตรีวิทยา</h2>
-            <h1 class="text-2xl md:text-4xl font-bold header-gradient mb-3">Timeline การสมัครสอบ Pre-Test ปีการศึกษา 2569</h1>
-            <p class="text-lg text-red-600 font-medium">ข้อมูล ณ วันที่ 17 ตุลาคม 2568</p>
-        </header>
+        <div class="header-bg">
+            <header class="text-center mb-6">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">ครอบครัวยอดนารี❤️สตรีวิทยา</h2>
+                <h1 class="text-2xl md:text-4xl font-bold text-white mb-3">Timeline การสมัครสอบ Pre-Test ปีการศึกษา 2569</h1>
+                <p class="text-lg text-white font-medium">ข้อมูล ณ วันที่ 17 ตุลาคม 2568</p>
+            </header>
+        </div>
         
-        <p class="text-center text-pink-600 font-medium mb-6">รวบรวมข้อมูลโดย..ลุ้นสอวอไปด้วยกันนะ</p>
+        <p class="text-center text-pink-600 font-medium mb-6 bg-white py-2 rounded-lg shadow-sm">รวบรวมข้อมูลโดย..ลุ้นสอวอไปด้วยกันนะ</p>
 
         <div class="tab-buttons">
             <button class="tab-button active" onclick="openTab(event, 'application')">
@@ -421,25 +444,19 @@
                             <p><strong class="font-semibold"><i class="fas fa-calendar-day mr-2 text-blue-500"></i>วันรับสมัคร:</strong> 12 สิงหาคม – 25 พฤศจิกายน 2568</p>
                             <p><strong class="font-semibold"><i class="fas fa-file-signature mr-2 text-red-500"></i>วันสอบ:</strong> 30 พฤศจิกายน 2568</p>
                         </div>
-                        <div class="countdown-container mt-4">
-                            <p class="font-semibold text-gray-700 mb-2"><i class="fas fa-clock mr-2 text-purple-500"></i>นับถอยหลัง:</p>
-                            <div class="countdown-box">
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="days-1">00</div>
-                                    <div class="countdown-label">วัน</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="hours-1">00</div>
-                                    <div class="countdown-label">ชั่วโมง</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="minutes-1">00</div>
-                                    <div class="countdown-label">นาที</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="seconds-1">00</div>
-                                    <div class="countdown-label">วินาที</div>
-                                </div>
+                        <div class="countdown-container">
+                            <span class="text-sm font-semibold text-gray-700 mr-2"><i class="fas fa-clock mr-1 text-purple-500"></i>เหลือเวลาอีก:</span>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="days-1">00</div>
+                                <div class="countdown-label">วัน</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="hours-1">00</div>
+                                <div class="countdown-label">ชม.</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="minutes-1">00</div>
+                                <div class="countdown-label">นาที</div>
                             </div>
                         </div>
                         <a href="https://www.facebook.com/share/p/1MSBUig4sr/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
@@ -460,25 +477,19 @@
                             <p><strong class="font-semibold"><i class="fas fa-calendar-day mr-2 text-blue-500"></i>วันรับสมัคร:</strong> 15 กันยายน 2568 – 11 มกราคม 2569</p>
                             <p><strong class="font-semibold"><i class="fas fa-file-signature mr-2 text-red-500"></i>วันสอบ:</strong> 24 มกราคม 2569</p>
                         </div>
-                        <div class="countdown-container mt-4">
-                            <p class="font-semibold text-gray-700 mb-2"><i class="fas fa-clock mr-2 text-purple-500"></i>นับถอยหลัง:</p>
-                            <div class="countdown-box">
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="days-2">00</div>
-                                    <div class="countdown-label">วัน</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="hours-2">00</div>
-                                    <div class="countdown-label">ชั่วโมง</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="minutes-2">00</div>
-                                    <div class="countdown-label">นาที</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="seconds-2">00</div>
-                                    <div class="countdown-label">วินาที</div>
-                                </div>
+                        <div class="countdown-container">
+                            <span class="text-sm font-semibold text-gray-700 mr-2"><i class="fas fa-clock mr-1 text-purple-500"></i>เหลือเวลาอีก:</span>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="days-2">00</div>
+                                <div class="countdown-label">วัน</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="hours-2">00</div>
+                                <div class="countdown-label">ชม.</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="minutes-2">00</div>
+                                <div class="countdown-label">นาที</div>
                             </div>
                         </div>
                         <a href="https://sites.google.com/tsn.ac.th/pretest68/%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%81%E0%B8%B2%E0%B8%A8%E0%B8%A3%E0%B8%9A%E0%B8%AA%E0%B8%A1%E0%B8%84%E0%B8%A3" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors">
@@ -499,28 +510,55 @@
                             <p><strong class="font-semibold"><i class="fas fa-calendar-day mr-2 text-blue-500"></i>วันรับสมัคร:</strong> 20 กันยายน 2568 – 9 มกราคม 2569</p>
                             <p><strong class="font-semibold"><i class="fas fa-file-signature mr-2 text-red-500"></i>วันสอบ:</strong> 17 - 18 มกราคม 2569</p>
                         </div>
-                        <div class="countdown-container mt-4">
-                            <p class="font-semibold text-gray-700 mb-2"><i class="fas fa-clock mr-2 text-purple-500"></i>นับถอยหลัง:</p>
-                            <div class="countdown-box">
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="days-3">00</div>
-                                    <div class="countdown-label">วัน</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="hours-3">00</div>
-                                    <div class="countdown-label">ชั่วโมง</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="minutes-3">00</div>
-                                    <div class="countdown-label">นาที</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="seconds-3">00</div>
-                                    <div class="countdown-label">วินาที</div>
-                                </div>
+                        <div class="countdown-container">
+                            <span class="text-sm font-semibold text-gray-700 mr-2"><i class="fas fa-clock mr-1 text-purple-500"></i>เหลือเวลาอีก:</span>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="days-3">00</div>
+                                <div class="countdown-label">วัน</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="hours-3">00</div>
+                                <div class="countdown-label">ชม.</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="minutes-3">00</div>
+                                <div class="countdown-label">นาที</div>
                             </div>
                         </div>
                         <a href="https://www.facebook.com/share/p/178R5bqk8C/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 bg-lime-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-lime-700 transition-colors">
+                            <i class="fas fa-external-link-alt mr-2"></i>ดูรายละเอียด
+                        </a>
+                    </div>
+                </div>
+
+                <!-- โรงเรียนรัตนโกสินทร์สมโภชบางขุนเทียน -->
+                <div class="timeline-item">
+                    <div class="timeline-dot bg-yellow-500"></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md" data-start-date="2025-09-22" data-end-date="2026-01-04T15:59:59">
+                        <div class="flex justify-between items-start">
+                            <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนรัตนโกสินทร์สมโภชบางขุนเทียน</h2>
+                            <span class="status-badge status-open">เปิดรับสมัคร</span>
+                        </div>
+                        <div class="space-y-2">
+                            <p><strong class="font-semibold"><i class="fas fa-calendar-day mr-2 text-blue-500"></i>วันรับสมัคร:</strong> 22 กันยายน 2568 – 4 มกราคม 2569</p>
+                            <p><strong class="font-semibold"><i class="fas fa-file-signature mr-2 text-red-500"></i>วันสอบ:</strong> 10 - 11 มกราคม 2569</p>
+                        </div>
+                        <div class="countdown-container">
+                            <span class="text-sm font-semibold text-gray-700 mr-2"><i class="fas fa-clock mr-1 text-purple-500"></i>เหลือเวลาอีก:</span>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="days-4">00</div>
+                                <div class="countdown-label">วัน</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="hours-4">00</div>
+                                <div class="countdown-label">ชม.</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="minutes-4">00</div>
+                                <div class="countdown-label">นาที</div>
+                            </div>
+                        </div>
+                        <a href="https://www.facebook.com/share/p/1FWPF3wiYR/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-700 transition-colors">
                             <i class="fas fa-external-link-alt mr-2"></i>ดูรายละเอียด
                         </a>
                     </div>
@@ -537,25 +575,19 @@
                     <div class="content" data-start-date="2025-11-02">
                         <h2>2 พ.ย. 2568</h2>
                         <p class="school-name"><i class="fas fa-school"></i>โรงเรียนสาธิตวัดพระศรีมหาธาตุ</p>
-                        <div class="countdown-container mt-4">
-                            <p class="font-semibold text-gray-700 mb-2"><i class="fas fa-clock mr-2 text-purple-500"></i>นับถอยหลัง:</p>
-                            <div class="countdown-box">
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-days-1">00</div>
-                                    <div class="countdown-label">วัน</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-hours-1">00</div>
-                                    <div class="countdown-label">ชั่วโมง</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-minutes-1">00</div>
-                                    <div class="countdown-label">นาที</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-seconds-1">00</div>
-                                    <div class="countdown-label">วินาที</div>
-                                </div>
+                        <div class="countdown-container">
+                            <span class="text-sm font-semibold text-gray-700 mr-2"><i class="fas fa-clock mr-1 text-purple-500"></i>สอบในอีก:</span>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="exam-days-1">00</div>
+                                <div class="countdown-label">วัน</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="exam-hours-1">00</div>
+                                <div class="countdown-label">ชม.</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="exam-minutes-1">00</div>
+                                <div class="countdown-label">นาที</div>
                             </div>
                         </div>
                     </div>
@@ -565,25 +597,19 @@
                     <div class="content" data-start-date="2025-11-08">
                         <h2>8 พ.ย. 2568</h2>
                         <p class="school-name"><i class="fas fa-school"></i>โรงเรียนสาธิต มศว. ปทุมวัน</p>
-                        <div class="countdown-container mt-4">
-                            <p class="font-semibold text-gray-700 mb-2"><i class="fas fa-clock mr-2 text-purple-500"></i>นับถอยหลัง:</p>
-                            <div class="countdown-box">
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-days-2">00</div>
-                                    <div class="countdown-label">วัน</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-hours-2">00</div>
-                                    <div class="countdown-label">ชั่วโมง</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-minutes-2">00</div>
-                                    <div class="countdown-label">นาที</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-seconds-2">00</div>
-                                    <div class="countdown-label">วินาที</div>
-                                </div>
+                        <div class="countdown-container">
+                            <span class="text-sm font-semibold text-gray-700 mr-2"><i class="fas fa-clock mr-1 text-purple-500"></i>สอบในอีก:</span>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="exam-days-2">00</div>
+                                <div class="countdown-label">วัน</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="exam-hours-2">00</div>
+                                <div class="countdown-label">ชม.</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="exam-minutes-2">00</div>
+                                <div class="countdown-label">นาที</div>
                             </div>
                         </div>
                     </div>
@@ -594,25 +620,19 @@
                         <h2>9 พ.ย. 2568</h2>
                         <p class="school-name"><i class="fas fa-school"></i>โรงเรียนสาธิต มศว. ประสานมิตร</p>
                         <p>(หลักสูตรไตรภาษา)</p>
-                        <div class="countdown-container mt-4">
-                            <p class="font-semibold text-gray-700 mb-2"><i class="fas fa-clock mr-2 text-purple-500"></i>นับถอยหลัง:</p>
-                            <div class="countdown-box">
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-days-3">00</div>
-                                    <div class="countdown-label">วัน</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-hours-3">00</div>
-                                    <div class="countdown-label">ชั่วโมง</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-minutes-3">00</div>
-                                    <div class="countdown-label">นาที</div>
-                                </div>
-                                <div class="countdown-item">
-                                    <div class="countdown-value" id="exam-seconds-3">00</div>
-                                    <div class="countdown-label">วินาที</div>
-                                </div>
+                        <div class="countdown-container">
+                            <span class="text-sm font-semibold text-gray-700 mr-2"><i class="fas fa-clock mr-1 text-purple-500"></i>สอบในอีก:</span>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="exam-days-3">00</div>
+                                <div class="countdown-label">วัน</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="exam-hours-3">00</div>
+                                <div class="countdown-label">ชม.</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="exam-minutes-3">00</div>
+                                <div class="countdown-label">นาที</div>
                             </div>
                         </div>
                     </div>
@@ -686,18 +706,19 @@
         // ฟังก์ชันเริ่มต้นการนับถอยหลัง
         function initializeCountdowns() {
             // นับถอยหลังสำหรับวันรับสมัคร
-            startCountdown("2025-11-25T15:59:59", "days-1", "hours-1", "minutes-1", "seconds-1");
-            startCountdown("2026-01-11T15:59:59", "days-2", "hours-2", "minutes-2", "seconds-2");
-            startCountdown("2026-01-09T15:59:59", "days-3", "hours-3", "minutes-3", "seconds-3");
+            startCountdown("2025-11-25T15:59:59", "days-1", "hours-1", "minutes-1");
+            startCountdown("2026-01-11T15:59:59", "days-2", "hours-2", "minutes-2");
+            startCountdown("2026-01-09T15:59:59", "days-3", "hours-3", "minutes-3");
+            startCountdown("2026-01-04T15:59:59", "days-4", "hours-4", "minutes-4");
             
             // นับถอยหลังสำหรับวันสอบ
-            startCountdown("2025-11-02T00:00:00", "exam-days-1", "exam-hours-1", "exam-minutes-1", "exam-seconds-1");
-            startCountdown("2025-11-08T00:00:00", "exam-days-2", "exam-hours-2", "exam-minutes-2", "exam-seconds-2");
-            startCountdown("2025-11-09T00:00:00", "exam-days-3", "exam-hours-3", "exam-minutes-3", "exam-seconds-3");
+            startCountdown("2025-11-02T00:00:00", "exam-days-1", "exam-hours-1", "exam-minutes-1");
+            startCountdown("2025-11-08T00:00:00", "exam-days-2", "exam-hours-2", "exam-minutes-2");
+            startCountdown("2025-11-09T00:00:00", "exam-days-3", "exam-hours-3", "exam-minutes-3");
         }
 
-        // ฟังก์ชันนับถอยหลัง
-        function startCountdown(endDate, daysId, hoursId, minutesId, secondsId) {
+        // ฟังก์ชันนับถอยหลัง (ไม่มีวินาที)
+        function startCountdown(endDate, daysId, hoursId, minutesId) {
             const countDownDate = new Date(endDate).getTime();
             
             const x = setInterval(function() {
@@ -707,21 +728,18 @@
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
                 
                 document.getElementById(daysId).innerHTML = days < 10 ? "0" + days : days;
                 document.getElementById(hoursId).innerHTML = hours < 10 ? "0" + hours : hours;
                 document.getElementById(minutesId).innerHTML = minutes < 10 ? "0" + minutes : minutes;
-                document.getElementById(secondsId).innerHTML = seconds < 10 ? "0" + seconds : seconds;
                 
                 if (distance < 0) {
                     clearInterval(x);
                     document.getElementById(daysId).innerHTML = "00";
                     document.getElementById(hoursId).innerHTML = "00";
                     document.getElementById(minutesId).innerHTML = "00";
-                    document.getElementById(secondsId).innerHTML = "00";
                 }
-            }, 1000);
+            }, 60000); // อัพเดททุกนาที (ไม่จำเป็นต้องอัพเดททุกวินาที)
         }
 
         // เพิ่มเอฟเฟกต์เมื่อเลื่อนถึงองค์ประกอบ

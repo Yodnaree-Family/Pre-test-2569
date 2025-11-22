@@ -7,39 +7,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* New Softer Color Palette */
+            --primary-theme: #7A003E; /* Deep Magenta/Maroon for title/emphasis */
+            --secondary-theme: #F4B300; /* Warm Gold for accents */
+            --line-color: #DCDCDC; /* Light gray for timeline line */
+            --background-light: #FBFBFB; /* Very soft white background */
+            --text-dark: #333333;
+        }
         body {
             font-family: 'Sarabun', sans-serif;
-        }
-        /* Custom styles for the timeline */
-        .timeline-item {
+            background-color: var(--background-light);
+            overflow-x: hidden; 
+            color: var(--text-dark);
             position: relative;
-            padding-bottom: 2.5rem;
-            padding-left: 2.5rem;
+            z-index: 1;
         }
-        .timeline-item:last-child {
-            padding-bottom: 0;
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 2px;
-            height: 100%;
-            background-color: #d1d5db; /* gray-300 */
-        }
-        .timeline-dot {
-            position: absolute;
-            left: -0.5rem;
-            top: 0.25rem;
-            width: 1.125rem;
-            height: 1.125rem;
-            border-radius: 9999px;
-            border-width: 2px;
-            border-color: white;
-        }
+        
+        /* Custom Watermark (Subtler) */
         body::before {
             content: "ครอบครัวยอดนารี❤️สตรีวิทยา";
             position: fixed;
@@ -47,946 +34,574 @@
             left: 50%;
             transform: translate(-50%, -50%) rotate(-30deg);
             font-size: 6vw;
-            font-weight: 700;
-            color: rgba(0, 0, 0, 0.04);
+            font-weight: 800;
+            color: rgba(122, 0, 62, 0.04); /* Soft transparent magenta */
             white-space: nowrap;
             z-index: 0;
             pointer-events: none;
         }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
         
+        /* Header Styling - Original Look */
+        header { margin-bottom: 2.5rem; padding: 1rem 0; }
+        h1, h2.title { text-align: center; }
+        .title-text { color: var(--primary-theme); }
+        .subtitle-date { color: var(--primary-theme); }
+
         /* Tab Navigation */
-        .tab-buttons {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #ddd;
-        }
         .tab-button {
-            padding: 12px 25px;
-            cursor: pointer;
-            border: none;
-            background-color: transparent;
-            font-size: 1.1em;
-            font-weight: bold;
+            padding: 12px 20px;
+            font-weight: 700;
             color: #7f8c8d;
-            transition: all 0.3s;
+            border-radius: 8px 8px 0 0;
         }
         .tab-button.active {
-            color: #3498db;
-            border-bottom: 3px solid #3498db;
-            background-color: #ecf0f1;
+            color: var(--primary-theme);
+            border-bottom: 3px solid var(--primary-theme);
+            background-color: #ffffff;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
         }
 
-        /* Tab Content */
-        .tab-content {
-            display: none; /* ซ่อน Tab ที่ไม่ได้ Active */
-            padding: 20px 0;
+        /* Card Style */
+        .timeline-card-content {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soft, large shadow */
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 8px solid; /* Placeholder for color accent */
+            padding: 24px;
         }
-        .tab-content.active {
-            display: block;
+        .timeline-card-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
-
-        /* Timeline Base Style (จากโค้ดเดิม) */
-        #exam .timeline {
+        
+        /* ==================================== */
+        /* Dual-Side Timeline Structure (Shared) */
+        /* ==================================== */
+        .timeline-wrapper {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
             padding: 10px 0;
         }
-        #exam .timeline::after {
+        /* Central Line */
+        .timeline-wrapper::after {
             content: '';
             position: absolute;
-            width: 6px;
-            background-color: #3498db;
+            width: 3px;
+            background-color: var(--line-color);
             top: 0;
             bottom: 0;
             left: 50%;
-            margin-left: -3px;
+            margin-left: -1.5px;
+            z-index: 0;
         }
-        #exam .container {
+        
+        .timeline-container {
             padding: 10px 40px;
             position: relative;
-            background-color: inherit;
             width: 50%;
             box-sizing: border-box;
         }
-        #exam .container::after {
-            content: '';
+        .timeline-left { left: 0; }
+        .timeline-right { left: 50%; }
+
+        /* Dot Style */
+        .timeline-container::after {
+            content: '🗓️';
             position: absolute;
-            width: 20px;
-            height: 20px;
-            right: -10px;
-            background-color: white;
-            border: 4px solid #3498db;
-            top: 15px;
+            width: 35px;
+            height: 35px;
+            right: -17.5px;
+            background-color: var(--background-light);
+            border: 5px solid; /* Color handled by JS/classes */
+            top: 25px;
             border-radius: 50%;
             z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            box-shadow: 0 0 0 3px var(--background-light);
         }
-        #exam .left { left: 0; }
-        #exam .right { left: 50%; }
-        #exam .right::after { left: -14px; }
-        #exam .left::before {
-            content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1; right: 30px;
-            border: medium solid white; border-width: 10px 0 10px 10px; border-color: transparent transparent transparent white;
-        }
-        #exam .right::before {
-            content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1; left: 30px;
-            border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent white transparent transparent;
-        }
-        #exam .content {
-            padding: 20px 30px;
-            background-color: white;
-            position: relative;
-            border-radius: 6px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        #exam .content h2 {
-            margin-top: 0;
-            color: #e74c3c; /* สีสำหรับวันที่ */
-            font-size: 1.2em;
-        }
-        #exam .content p { margin: 5px 0; }
-        #exam .school-name { font-weight: bold; color: #2980b9; }
+        .timeline-right::after { left: -17.5px; }
+        
+        /* Hiding Pointers for cleaner look */
+        .timeline-container::before { content: none !important; }
 
-        /* Responsive */
-        @media screen and (max-width: 600px) {
-            #exam .timeline::after { left: 31px; }
-            #exam .container { width: 100%; padding-left: 70px; padding-right: 25px; }
-            #exam .container::before { left: 60px; border-width: 10px 10px 10px 0; border-color: transparent white transparent transparent; }
-            #exam .left::after, #exam .right::after { left: 15px; }
-            #exam .right { left: 0%; }
+        /* Countdown Style */
+        .countdown-display {
+            background-color: #F0F4F8; /* Soft blueish gray */
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 15px;
+            border: 2px dashed;
+        }
+        .countdown-time-unit {
+            background-color: #E8EDF2; /* Slightly darker unit background */
+            border-radius: 8px;
+            padding: 8px 12px;
+        }
+        .countdown-digit {
+            font-size: 1.5rem;
+            line-height: 1;
+            font-weight: 800;
+        }
+        
+        /* Responsive adjustments */
+        @media screen and (max-width: 640px) {
+            .timeline-wrapper::after { left: 31px; }
+
+            .timeline-container { width: 100%; padding-left: 70px; padding-right: 20px; }
+            .timeline-left, .timeline-right { left: 0%; }
+
+            /* Mobile dot is always on the left and uses the primary color for emphasis */
+            .timeline-container::after { 
+                left: 14px; 
+                right: auto;
+                border-color: var(--primary-theme);
+                content: '✨'; /* Simpler, more focused icon on mobile */
+            }
+            .timeline-right::after { left: 14px; }
+            
+            .countdown-display { flex-direction: column; align-items: stretch; }
+            .countdown-time-unit { width: 100%; text-align: center; }
+            .countdown-units-wrapper { justify-content: space-between; gap: 8px; }
+            .countdown-time-unit { margin: 4px 0; }
+            
+            .timeline-card-content { border-left-width: 4px !important; border-right-width: 0 !important; }
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="text-base">
 
     <div class="container mx-auto p-4 md:p-8 max-w-4xl">
         <header class="text-center mb-10">
-			<h2 class="text-5xl font-semibold text-red-700 mt-2 mb-4">ครอบครัวยอดนารี❤️สตรีวิทยา</h2>
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Timeline การสมัครสอบ Pre-Test ปีการศึกษา 2569</h1>
-			<p class="text-lg text-red-600">ข้อมูล ณ วันที่ 19 พฤศจิกายน 2568 </p>
+			<h2 class="text-4xl md:text-5xl font-black title-text mt-2 mb-3">ครอบครัวยอดนารี❤️สตรีวิทยา</h2>
+            <h1 class="text-2xl md:text-4xl font-extrabold text-gray-800 mb-2">Timeline การสมัครสอบ Pre-Test ปีการศึกษา 2569</h1>
+			<p class="text-md md:text-lg subtitle-date font-semibold" id="current-date-info">ข้อมูล ณ วันที่...</p>
         </header>
         
-        <p style="text-align: center; color: #FF00FF;">รวบรวมข้อมูลโดย..ลุ้นสอวอไปด้วยกันนะ</p>
+        <p class="text-center font-bold mb-6" style="color: var(--secondary-theme);">รวบรวมข้อมูลโดย..ลุ้นสอวอไปด้วยกันนะ</p>
 
         <div class="tab-buttons">
-            <button class="tab-button" onclick="openTab(event, 'application')">🗓️ วันรับสมัคร (Timeline)</button>
-            <button class="tab-button" onclick="openTab(event, 'exam')">✏️ วันสอบ (Timeline)</button>
+            <button class="tab-button" onclick="openTab(event, 'application')">🗓️ วันรับสมัคร</button>
+            <button class="tab-button" onclick="openTab(event, 'exam')">✏️ วันสอบ</button>
         </div>
         
         <div id="application" class="tab-content">
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-green-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500" data-start-date="2025-08-12" data-end-date="2025-11-25T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนเทพศิรินทร์ (DS Pre-test'69)</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 12 สิงหาคม – 25 พฤศจิกายน 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 30 พฤศจิกายน 2568</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/1MSBUig4sr/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-pink-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-pink-500" data-start-date="2025-09-15" data-end-date="2026-01-11T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนเทพศิรินทร์ นนทบุรี (Pre-DSN ครั้งที่ 7)</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 15 กันยายน 2568 – 11 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ ห้องเรียนทั่วไป และห้องเรียนพิเศษ:</strong> 24 มกราคม 2569</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://sites.google.com/tsn.ac.th/pretest68/%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%81%E0%B8%B2%E0%B8%A8%E0%B8%A3%E0%B8%9A%E0%B8%AA%E0%B8%A1%E0%B8%84%E0%B8%A3" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
+            <div class="timeline-wrapper">
                 
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-lime-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-lime-500" data-start-date="2025-09-20" data-end-date="2026-01-09T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสวนกุหลาบวิทยาลัย ธนบุรี</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 20 กันยายน 2568 – 9 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 17 - 18 มกราคม 2569</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/178R5bqk8C/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-lime-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-lime-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-yellow-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-yellow-500" data-start-date="2025-09-22" data-end-date="2026-01-04T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนรัตนโกสินทร์สมโภชบางขุนเทียน</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 22 กันยายน 2568 – 4 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 10 - 11 มกราคม 2569</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/1FWPF3wiYR/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-lime-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-lime-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-cyan-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-cyan-500">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสาธิต มศว. ประสานมิตร</h2>
-                        
-                        <div class="pt-2" data-start-date="2025-09-29" data-end-date="2025-10-10T23:59:59">
-                            <p><strong class="font-semibold text-cyan-700">• หลักสูตรไตรภาษา</strong></p>
-                            <p class="ml-4"><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 29 กันยายน - 10 ตุลาคม 2568</p>
-                            <p class="ml-4"><strong class="font-semibold">📝 วันสอบ:</strong> 9 พฤศจิกายน 2568</p>
-                            <div class="countdown-container mt-2 ml-4 font-semibold"></div>
-                        </div>
-                
-                        <hr class="my-4"> <div class="pt-2" data-start-date="2025-11-02" data-end-date="2025-11-13T23:59:59">
-                            <p><strong class="font-semibold text-pink-700">• หลักสูตรปกติ</strong></p>
-                            <p class="ml-4"><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 2 – 13 พฤศจิกายน 2568</p>
-                            <p class="ml-4"><strong class="font-semibold">📝 วันสอบ:</strong> 30 พฤศจิกายน 2568</p>
-                            <div class="countdown-container mt-2 ml-4 font-semibold"></div>
-                        </div>
-                        
-                        <a href="https://www.facebook.com/share/p/1978a6oS4i/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-cyan-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-cyan-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-yellow-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-yellow-500" data-start-date="2025-10-10" data-end-date="2025-12-12T12:00">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">สมาคมผู้ปกครองและครูเตรียมอุดมศึกษา</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 10 ตุลาคม - 12 ธันวาคม 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ (online):</strong> 13 -14 ธันวาคม 2568</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/17XkFFDT2h/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-pink-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-pink-500" data-start-date="2025-10-01" data-end-date="2025-10-08T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสาธิตวัดพระศรีมหาธาตุ</h2>
-                        <p class="text-md font-bold text-red-900 mb-2">ปิดรับสมัคร!! เนื่องจากครบจำนวนรับแล้ว</p>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 1 ตุลาคม – 30 ตุลาคม 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 2 พฤศจิกายน 2568</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/1M3y3VQKUj/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-                            
-                 <div class="timeline-item">
-                    <div class="timeline-dot bg-indigo-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-indigo-500" data-start-date="2025-10-06" data-end-date="2025-11-24T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสาธิตมหาวิทยาลัยราชภัฏพระนครศรีอยุธยา</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 6 ตุลาคม – 24 พฤศจิกายน 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 10 ธันวาคม 2568</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/1AoPqU5mhy/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-                
-                    <div class="timeline-item">
-                    <div class="timeline-dot bg-pink-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-pink-500" data-start-date="2025-10-01" data-end-date="2025-11-26T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสาธิตสวนสุนันทา Pre-test ม.1 และม.4</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 1 ตุลาคม – 26 พฤศจิกายน 2568 (จำกัด 200 ที่นั่ง)</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 29 พฤศจิกายน 2568</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://regsd1.ssru.ac.th/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                 <div class="timeline-item">
-                    <div class="timeline-dot bg-pink-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-pink-500" data-start-date="2025-10-06" data-end-date="2025-11-28T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนดรุณสิกขาลัย</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> วันนี้ – 28 พฤศจิกายน 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 9 ธันวาคม 2568</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://e-school.kmutt.ac.th/dsil/students-apply/?fbclid=IwdGRjcANTL8ljbGNrA1MvsGV4dG4DYWVtAjExAAEeQWvRmrvO-TwQ5cvZfYoPGaA009SGCOJGy7AkjUjoiqmHWWBK-AoQFasHOfw_aem_JNxc5RQECaVP4nKbuOAyEg" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-yellow-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-yellow-500" data-start-date="2025-10-01" data-end-date="2025-12-25T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 1 ตุลาคม – 25 ธันวาคม 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 10 – 11 มกราคม 2569</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="http://brushup.bodin.ac.th" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-indigo-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-indigo-500" data-start-date="2025-10-01" data-end-date="2026-01-03T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนเตรียมอุดมศึกษาน้อมเกล้า</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 1 ตุลาคม 2568 – 3 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 18 มกราคม 2569</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.tun.ac.th/news-detail_4430_189506" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-red-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500" data-start-date="2025-10-01" data-end-date="2026-01-07T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนหอวัง (Horwang Pre-Test 2026)</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 1 ตุลาคม 2568 – 7 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong><br>
-                                 &nbsp;&nbsp;&nbsp;• ห้องเรียนพิเศษ ม.1 และม.4: 17 มกราคม 2569<br>
-                                 &nbsp;&nbsp;&nbsp;• ห้องเรียนปกติ ม.1: 26 มกราคม 2569
-                             </p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/19jerSn2wt/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                 <div class="timeline-item">
-                    <div class="timeline-dot bg-indigo-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-indigo-500" data-start-date="2025-10-01" data-end-date="2026-01-25T23:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนบางปะกอกวิทยาคม (Pre-BPK)</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 1 ตุลาคม 2568 – 25 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong><br>
-                                 &nbsp;&nbsp;&nbsp;• ห้องเรียนพิเศษ TEP/EP ม.1: 8 กุมภาพันธ์ 2569<br>
-                                 &nbsp;&nbsp;&nbsp;• ห้องเรียนปกติ ม.1: 1 กุมภาพันธ์ 2569
-                             </p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.bpk.ac.th/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                    <div class="timeline-item">
-                    <div class="timeline-dot bg-lime-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-lime-500" data-start-date="2025-10-07" data-end-date="2026-01-04T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนฤทธิยะวรรณาลัย</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 7 ตุลาคม 2568 – 4 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 18 มกราคม 2569</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.rittiya.ac.th/archives/20710" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                 <div class="timeline-item">
-                    <div class="timeline-dot bg-indigo-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-indigo-500" data-start-date="2025-10-10" data-end-date="2026-01-15T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนเตรียมอุดมศึกษาพัฒนาการ นนทบุรี</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 10 ตุลาคม 2568 – 15 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 25 มกราคม 2569</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://tpn.ac.th/?fbclid=IwY2xjawNb3olleHRuA2FlbQIxMABicmlkETE4TDhIZjZZTzlnNmpKN3RDAR6c7ugN4R_EQ6rbDcWTUEIVqRFXK0MoSJMgtkpj1xbBaO33OQCUagFLOpEYqQ_aem_5u6tkAPOcsKTxgr8c_yrJg" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-blue-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500" data-start-date="2025-10-20" data-end-date="2025-10-30T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสาธิต มศว. ปทุมวัน</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 20 ตุลาคม – 30 ตุลาคม 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 8 พฤศจิกายน 2568</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="http://www.satitpatumwan.ac.th" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-purple-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500" data-start-date="2025-10-25" data-end-date="2025-11-23T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสามเสนวิทยาลัย</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 25 ตุลาคม – 23 พฤศจิกายน 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 13 – 14 ธันวาคม 2568 (On-site & Online) </p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/15ea2XZtzW/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-				<div class="timeline-item">
-                    <div class="timeline-dot bg-green-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500" data-start-date="2025-10-27" data-end-date="2025-12-26T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนราชวินิตบางแก้ว</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 27 ตุลาคม – 26 ธันวาคม 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ (ครั้งที่ 1):</strong> 18 มกราคม 2569 </p>
-							<p><strong class="font-semibold">📝 วันสอบ (ครั้งที่ 2):</strong> 1 กุมภาพันธ์ 2569 </p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/17dFkDdp52/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-red-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500" data-start-date="2025-10-28" data-end-date="2025-12-08T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสตรีวิทยา</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 28 ตุลาคม – 8 ธันวาคม 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 20 – 21 ธันวาคม 2568 (On-site & Online)</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/1PPgdonWTG/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-orange-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-orange-500">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสาธิต ม.รามคำแหง (ฝ่ายมัธยม)</h2>
-                        
-                        <div class="pt-2" data-start-date="2025-11-01" data-end-date="2025-12-16T15:59:59">
-                            <p><strong class="font-semibold text-orange-700">• รอบที่ 1</strong></p>
-                            <p class="ml-4"><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 1 พฤศจิกายน - 16 ธันวาคม 2568</p>
-                            <div class="countdown-container mt-2 ml-4 font-semibold"></div>
-                        </div>
-
-                        <hr class="my-4">
-                
-                        <div class="pt-2" data-start-date="2026-01-05" data-end-date="2026-01-13T15:59:59">
-                            <p><strong class="font-semibold text-orange-700">• รอบที่ 2</strong></p>
-                            <p class="ml-4"><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 5 - 13 มกราคม 2569</p>
-                            <div class="countdown-container mt-2 ml-4 font-semibold"></div>
-                        </div>
-                
-                        <p class="mt-4"><strong class="font-semibold">📝 วันสอบ:</strong> 18 มกราคม 2569</p>
-                
-                        <a href="http://www.ds.ru.ac.th" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-             <div class="timeline-item">
-                    <div class="timeline-dot bg-purple-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500" data-start-date="2025-11-03" data-end-date="2026-01-04T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสารวิทยา Ptr-test ม.1 และม.4 </h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 3 พฤศจิกายน 2568 - 4 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 11 มกราคม 2569 (ม.1 & ม.4) </p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://m.facebook.com/story.php?story_fbid=pfbid0NB4YG44d71jKgz8y12akEAujXJLBdhhXSQzWG5HGCdqVRxiWjY2hDebVN9o9dckgl&id=100057236898075&mibextid=NOb6eG" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-				
-                 <div class="timeline-item">
-                    <div class="timeline-dot bg-purple-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500" data-start-date="2025-11-15" data-end-date="2026-01-18T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสวนกุหลาบวิทยาลัย นนทบุรี</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 15 พฤศจิกายน 2568 - 18 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 25 มกราคม 2569 (ห้องเรียนปกติ & ห้องเรียนพิเศษ) </p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/1BL8Gj9eKe/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-				
-				<div class="timeline-item">
-                    <div class="timeline-dot bg-blue-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500" data-start-date="2025-11-17" data-end-date="2025-12-25T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสวนกุหลาบวิทยาลัย รังสิต</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 17 พฤศจิกายน 2568 - 25 ธันวาคม 2568</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 18 มกราคม 2569 </p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/1Z48qTmsrq/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-				<div class="timeline-item">
-                    <div class="timeline-dot bg-red-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500" data-start-date="2025-11-17" data-end-date="2026-01-13T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนนวมินทราชินูทิศ สตรีวิทยา พุทธมณฑล (SW3)</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 17 พฤศจิกายน 2568 - 13 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 18 มกราคม 2569 (Pre-M.1) </p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 17 มกราคม 2569 (Pre-M.4) </p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/17affUr3XL/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-				
-				<div class="timeline-item">
-                    <div class="timeline-dot bg-yellow-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-yellow-500" data-start-date="2025-11-17" data-end-date="2026-01-0718T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนศึกษานารี</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 17 พฤศจิกายน 2568 - 7 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 17 มกราคม 2569 (ห้องเรียนปกติ & ห้องเรียนพิเศษ) </p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/1GUC64FMox/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-                
-                    <div class="timeline-item">
-                    <div class="timeline-dot bg-orange-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-orange-500" data-start-date="2025-12-12" data-end-date="2026-01-11T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสายปัญญารังสิต </h2>
-                       <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 12 ธันวาคม 2568 - 11 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 16 มกราคม 2569 </p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/17LHPvJ3Sk/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                            
-                 <div class="timeline-item">
-                    <div class="timeline-dot bg-pink-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-pink-500" data-start-date="2025-10-01" data-end-date="2026-01-23T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนวัดสุทธิวราราม</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 1 ตุลาคม – 23 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 25 มกราคม 2569</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="httpss://suthi.ac.th/news/11450/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot bg-teal-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-teal-500"data-start-date="2025-11-17" data-end-date="2026-01-18T15:59:59">
-						<h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนโพธิสารพิทยากร (PRETEST 2026)</h2>
-                        <div class="space-y-2">
-                            <p><strong class="font-semibold">📝 วันสอบ (PSIP PRE-TEST):</strong> 24 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ (PS PRE-TEST):</strong> 25 มกราคม 2569</p>
-                             </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/1A9z6DowQy/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
-
-				<div class="timeline-item">
-                    <div class="timeline-dot bg-orange-500"></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500" data-start-date="2025-12-05" data-end-date="2026-01-15T15:59:59">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2">โรงเรียนสตรีวิทยา 2 ในพระราชูปถัมภ์ฯ (SW2) </h2>
-                       <div class="space-y-2">
-                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> 5 ธันวาคม 2568 - 15 มกราคม 2569</p>
-                            <p><strong class="font-semibold">📝 วันสอบ:</strong> 24 มกราคม 2569 (ห้องเรียนปกติ ม.1 และม.4)</p>
-						   <p><strong class="font-semibold">📝 วันสอบ:</strong> 25 มกราคม 2569 (ห้องเรียนพิเศษ ม.1 และม.4)</p>
-                        </div>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                        <a href="https://www.facebook.com/share/p/1FrNhss6aD/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
+                <!-- Helper for alternating colors and position -->
+                <div id="application-timeline-content">
+                    
+                    <!-- Content will be injected/rendered here based on list below -->
+                    
                 </div>
             </div>
         </div>
 		
 		<div id="exam" class="tab-content">
-            <div class="timeline">
-            
-
-
-                <div class="container right">
-                    <div class="content border-l-4 border-green-500" data-start-date="2025-11-02">
-                        <h2>2 พ.ย. 2568</h2>
-                        <p class="school-name">โรงเรียนสาธิตวัดพระศรีมหาธาตุ</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-
-                <div class="container left">
-                    <div class="content border-l-4 border-red-500" data-start-date="2025-11-08">
-                        <h2>8 พ.ย. 2568</h2>
-                        <p class="school-name">โรงเรียนสาธิต มศว. ปทุมวัน</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-
-                <div class="container right">
-                    <div class="content border-l-4 border-purple-500" data-start-date="2025-11-09">
-                        <h2>9 พ.ย. 2568</h2>
-                        <p class="school-name">โรงเรียนสาธิต มศว. ประสานมิตร</p>
-                        <p>(หลักสูตรไตรภาษา)</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-
-                <div class="container left">
-                    <div class="content border-l-4 border-pink-500" data-start-date="2025-11-29">
-                        <h2>29 พ.ย. 2568</h2>
-                        <p class="school-name">โรงเรียนสาธิตสวนสุนันทา</p>
-                        <p>(Pre-test ม.1 และ ม.4)</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-
-                <div class="container right">
-                    <div class="content border-l-4 border-yellow-500" data-start-date="2025-11-30">
-                        <h2>30 พ.ย. 2568</h2>
-                        <p class="school-name">โรงเรียนเทพศิรินทร์ (DS Pre-test '69)</p>
-                        <p class="school-name">โรงเรียนสาธิต มศว. ประสานมิตร (หลักสูตรปกติ)</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-				
-                <div class="container left">
-                    <div class="content border-l-4 border-indigo-500" data-start-date="2025-12-09">
-                        <h2>9 ธ.ค. 2568</h2>
-                        <p class="school-name">โรงเรียนดรุณสิกขาลัย</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-
-                <div class="container right">
-                    <div class="content border-l-4 border-teal-500" data-start-date="2025-12-10">
-                        <h2>10 ธ.ค. 2568</h2>
-                        <p class="school-name">โรงเรียนสาธิตมหาวิทยาลัยราชภัฏพระนครศรีอยุธยา</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-
-		
-                <div class="container left">
-                    <div class="content border-l-4 border-blue-500" data-start-date="2025-12-13">
-                        <h2>13 – 14 ธ.ค. 2568</h2>
-						<p class="school-name">โรงเรียนเตรียมอุดมศึกษา (online)</p>
-                        <p class="school-name">โรงเรียนสามเสนวิทยาลัย</p>
-                        <p>(On-site & Online)</p>
-						
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-
-                <div class="container right">
-                    <div class="content border-l-4 border-green-500" data-start-date="2025-12-20">
-                        <h2>20 – 21 ธ.ค. 2568</h2>
-                        <p class="school-name">โรงเรียนสตรีวิทยา</p>
-                        <p>(On-site & Online)</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-
-                <div class="container left">
-                    <div class="content border-l-4 border-red-500" data-start-date="2026-01-10">
-                        <h2>10 ม.ค. 2569</h2>
-                        <p class="school-name">โรงเรียนรัตนโกสินทร์สมโภชบางขุนเทียน (EC, MEP)</p>
-                        <p class="school-name">โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี) (วิทย์, คณิต)</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-				
-                <div class="container right">
-                    <div class="content border-l-4 border-blue-500" data-start-date="2026-01-11">
-                        <h2>11 ม.ค. 2569</h2>
-                        <p class="school-name">โรงเรียนสารวิทยา</p>
-                        <p class="school-name">โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี) (ปกติ,EP)</p>
-						<p class="school-name">โรงเรียนรัตนโกสินทร์สมโภชบางขุนเทียน (ห้องเรียนปกติ,SMT)</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-                <div class="container left">
-                    <div class="content border-l-4 border-purple-500" data-start-date="2026-01-16">
-                        <h2>16 ม.ค. 2569</h2>
-                        <p class="school-name">โรงเรียนสายปัญญารังสิต</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-
+            <div class="timeline-wrapper">
                 
-     				
-                <div class="container right">
-                    <div class="content border-l-4 border-pink-500" data-start-date="2026-01-17">
-                        <h2>17 ม.ค. 2569</h2>
-                        <p class="school-name">โรงเรียนหอวัง</p>
-                        <p>(ห้องเรียนพิเศษ ม.1 และ ม.4)</p>
-						<p class="school-name">โรงเรียนศึกษานารี</p>
-                        <p>(ห้องเรียนพิเศษ และห้องเรียนปกติ ม.1)</p>
-                         <p class="school-name">โรงเรียนนวมินทราชินูทิศ สตรีวิทยา พุทธมณฑล (SW3) (Pre M.4)</p>
-
-                        <div class="countdown-container mt-4 font-semibold"></div>
+                <!-- Item 1: 2 พ.ย. 2568 (RIGHT - BLUE) -->
+                <div class="timeline-container timeline-right">
+                    <div class="timeline-card-content border-l-8" style="border-left-color: var(--secondary-theme);" data-start-date="2025-11-02">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">2 พ.ย. 2568</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสาธิตวัดพระศรีมหาธาตุ</p>
+                        <div class="countdown-container"></div>
                     </div>
                 </div>
 
-                <div class="container left">
-                    <div class="content border-l-4 border-yellow-500" data-start-date="2026-01-17">
-                        <h2>17 – 18 ม.ค. 2569</h2>
-                        <p class="school-name">โรงเรียนสวนกุหลาบวิทยาลัย ธนบุรี</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
+                <!-- Item 2: 8 พ.ย. 2568 (LEFT - RED) -->
+                <div class="timeline-container timeline-left">
+                    <div class="timeline-card-content border-r-8" style="border-right-color: var(--primary-theme);" data-start-date="2025-11-08">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">8 พ.ย. 2568</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสาธิต มศว. ปทุมวัน</p>
+                        <div class="countdown-container"></div>
                     </div>
                 </div>
 
-                <div class="container right">
-                    <div class="content border-l-4 border-indigo-500" data-start-date="2026-01-18">
-                        <h2>18 ม.ค. 2569</h2>
-                        <p class="school-name">โรงเรียนเตรียมอุดมศึกษาน้อมเกล้า</p>
-                        <p class="school-name">โรงเรียนฤทธิยะวรรณาลัย</p>
-                        <p class="school-name">โรงเรียนสาธิต ม.รามคำแหง (ฝ่ายมัธยม) (รอบ 2)</p>
-						<p class="school-name">โรงเรียนราชวินิตบางแก้ว (ครั้งที่ 1)</p>
-						<p class="school-name">โรงเรียนสวนกุหลาบ รังสิต</p>
-                        <p class="school-name">โรงเรียนนวมินทราชินูทิศ สตรีวิทยา พุทธมณฑล (SW3) (Pre M.1)</p>
+                <!-- Item 3: 9 พ.ย. 2568 (RIGHT - BLUE) -->
+                <div class="timeline-container timeline-right">
+                    <div class="timeline-card-content border-l-8" style="border-left-color: var(--secondary-theme);" data-start-date="2025-11-09">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">9 พ.ย. 2568</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสาธิต มศว. ประสานมิตร (หลักสูตรไตรภาษา)</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
 
-                        <div class="countdown-container mt-4 font-semibold"></div>
+                <!-- Item 4: 29 พ.ย. 2568 (LEFT - RED) -->
+                <div class="timeline-container timeline-left">
+                    <div class="timeline-card-content border-r-8" style="border-right-color: var(--primary-theme);" data-start-date="2025-11-29">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">29 พ.ย. 2568</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสาธิตสวนสุนันทา (Pre-test ม.1 และ ม.4)</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+
+                <!-- Item 5: 30 พ.ย. 2568 (RIGHT - BLUE) -->
+                <div class="timeline-container timeline-right">
+                    <div class="timeline-card-content border-l-8" style="border-left-color: var(--secondary-theme);" data-start-date="2025-11-30">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">30 พ.ย. 2568</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนเทพศิรินทร์ (DS Pre-test '69)</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสาธิต มศว. ประสานมิตร (หลักสูตรปกติ)</p>
+                        <div class="countdown-container"></div>
                     </div>
                 </div>
 				
-                <div class="container left">
-                    <div class="content border-l-4 border-teal-500" data-start-date="2026-01-24">
-                        <h2>24 ม.ค. 2569</h2>
-                        <p class="school-name">โรงเรียนเทพศิรินทร์ นนทบุรี (Pre-DSN)</p>
-                        <p class="school-name">โรงเรียนโพธิสารพิทยากร (PSIP PRE-TEST)</p>
-						<p class="school-name">โรงเรียนสตรีวิทยา 2 ในพระราชูปถัมภ์ฯ (SW2) ห้องเรียนปกติ ม.1 และม.4</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-                    </div>
-                </div>
-				
-                <div class="container right">
-                    <div class="content border-l-4 border-blue-500" data-start-date="2026-01-25">
-                        <h2>25 ม.ค. 2569</h2>
-                        <p class="school-name">โรงเรียนเตรียมอุดมศึกษาพัฒนาการ นนทบุรี</p>
-                        <p class="school-name">โรงเรียนสวนกุหลาบวิทยาลัย นนทบุรี</p>
-                        <p class="school-name">โรงเรียนวัดสุทธิวราราม</p>
-                        <p class="school-name">โรงเรียนโพธิสารพิทยากร (PS PRE-TEST)</p>
-						<p class="school-name">โรงเรียนสตรีวิทยา 2 ในพระราชูปถัมภ์ฯ (SW2) ห้องเรียนพิเศษ ม.1 และม.4</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
-			
+                <!-- Item 6: 9 ธ.ค. 2568 (LEFT - RED) -->
+                <div class="timeline-container timeline-left">
+                    <div class="timeline-card-content border-r-8" style="border-right-color: var(--primary-theme);" data-start-date="2025-12-09">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">9 ธ.ค. 2568</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนดรุณสิกขาลัย</p>
+                        <div class="countdown-container"></div>
                     </div>
                 </div>
 
-                <div class="container left">
-                    <div class="content border-l-4 border-green-500" data-start-date="2026-01-26">
-                        <h2>26 ม.ค. 2569</h2>
-                        <p class="school-name">โรงเรียนหอวัง</p>
-                        <p>(ห้องเรียนปกติ ม.1)</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
+                <!-- Item 7: 10 ธ.ค. 2568 (RIGHT - BLUE) -->
+                <div class="timeline-container timeline-right">
+                    <div class="timeline-card-content border-l-8" style="border-left-color: var(--secondary-theme);" data-start-date="2025-12-10">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">10 ธ.ค. 2568</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสาธิตมหาวิทยาลัยราชภัฏพระนครศรีอยุธยา</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+
+                <!-- Item 8: 13 – 14 ธ.ค. 2568 (LEFT - RED) -->
+                <div class="timeline-container timeline-left">
+                    <div class="timeline-card-content border-r-8" style="border-right-color: var(--primary-theme);" data-start-date="2025-12-13">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">13 – 14 ธ.ค. 2568</h2>
+						<p class="font-bold" style="color: var(--secondary-theme);">สมาคมผู้ปกครองและครูเตรียมอุดมศึกษา (online)</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสามเสนวิทยาลัย (On-site & Online)</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+
+                <!-- Item 9: 20 – 21 ธ.ค. 2568 (RIGHT - BLUE) -->
+                <div class="timeline-container timeline-right">
+                    <div class="timeline-card-content border-l-8" style="border-left-color: var(--secondary-theme);" data-start-date="2025-12-20">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">20 – 21 ธ.ค. 2568</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสตรีวิทยา (On-site & Online)</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+
+                <!-- Item 10: 10 ม.ค. 2569 (LEFT - RED) -->
+                <div class="timeline-container timeline-left">
+                    <div class="timeline-card-content border-r-8" style="border-right-color: var(--primary-theme);" data-start-date="2026-01-10">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">10 ม.ค. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนรัตนโกสินทร์สมโภชบางขุนเทียน (EC, MEP)</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี) (วิทย์, คณิต)</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+				
+                <!-- Item 11: 11 ม.ค. 2569 (RIGHT - BLUE) -->
+                <div class="timeline-container timeline-right">
+                    <div class="timeline-card-content border-l-8" style="border-left-color: var(--secondary-theme);" data-start-date="2026-01-11">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">11 ม.ค. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสารวิทยา</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี) (ปกติ,EP)</p>
+						<p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนรัตนโกสินทร์สมโภชบางขุนเทียน (ห้องเรียนปกติ,SMT)</p>
+                        <div class="countdown-container"></div>
                     </div>
                 </div>
                 
+                <!-- Item 12: 16 ม.ค. 2569 (LEFT - RED) -->
+                <div class="timeline-container timeline-left">
+                    <div class="timeline-card-content border-r-8" style="border-right-color: var(--primary-theme);" data-start-date="2026-01-16">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">16 ม.ค. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสายปัญญารังสิต</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+
+                <!-- Item 13: 17 ม.ค. 2569 (RIGHT - BLUE) -->
+                <div class="timeline-container timeline-right">
+                    <div class="timeline-card-content border-l-8" style="border-left-color: var(--secondary-theme);" data-start-date="2026-01-17">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">17 ม.ค. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนหอวัง (ห้องเรียนพิเศษ ม.1 และ ม.4)</p>
+						<p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนศึกษานารี (ห้องเรียนพิเศษ และห้องเรียนปกติ ม.1)</p>
+                         <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนนวมินทราชินูทิศ สตรีวิทยา พุทธมณฑล (SW3) (Pre M.4)</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+
+                <!-- Item 14: 17 – 18 ม.ค. 2569 (LEFT - RED) -->
+                <div class="timeline-container timeline-left">
+                    <div class="timeline-card-content border-r-8" style="border-right-color: var(--primary-theme);" data-start-date="2026-01-17">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">17 – 18 ม.ค. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสวนกุหลาบวิทยาลัย ธนบุรี</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+
+                <!-- Item 15: 18 ม.ค. 2569 (RIGHT - BLUE) -->
+                <div class="timeline-container timeline-right">
+                    <div class="timeline-card-content border-l-8" style="border-left-color: var(--secondary-theme);" data-start-date="2026-01-18">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">18 ม.ค. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนเตรียมอุดมศึกษาน้อมเกล้า</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนฤทธิยะวรรณาลัย</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสาธิต ม.รามคำแหง (ฝ่ายมัธยม) (รอบ 2)</p>
+						<p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนราชวินิตบางแก้ว (ครั้งที่ 1)</p>
+						<p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสวนกุหลาบ รังสิต</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนนวมินทราชินูทิศ สตรีวิทยา พุทธมณฑล (SW3) (Pre M.1)</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+				
+                <!-- Item 16: 24 ม.ค. 2569 (LEFT - RED) -->
+                <div class="timeline-container timeline-left">
+                    <div class="timeline-card-content border-r-8" style="border-right-color: var(--primary-theme);" data-start-date="2026-01-24">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">24 ม.ค. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนเทพศิรินทร์ นนทบุรี (Pre-DSN)</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนโพธิสารพิทยากร (PSIP PRE-TEST)</p>
+						<p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสตรีวิทยา 2 (SW2) (ปกติ ม.1 และ ม.4)</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+				
+                <!-- Item 17: 25 ม.ค. 2569 (RIGHT - BLUE) -->
+                <div class="timeline-container timeline-right">
+                    <div class="timeline-card-content border-l-8" style="border-left-color: var(--secondary-theme);" data-start-date="2026-01-25">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">25 ม.ค. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนเตรียมอุดมศึกษาพัฒนาการ นนทบุรี</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสวนกุหลาบวิทยาลัย นนทบุรี</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนวัดสุทธิวราราม</p>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนโพธิสารพิทยากร (PS PRE-TEST)</p>
+						<p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนสตรีวิทยา 2 (SW2) (พิเศษ ม.1 และ ม.4)</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
+
+                <!-- Item 18: 26 ม.ค. 2569 (LEFT - RED) -->
+                <div class="timeline-container timeline-left">
+                    <div class="timeline-card-content border-r-8" style="border-right-color: var(--primary-theme);" data-start-date="2026-01-26">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">26 ม.ค. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนหอวัง (ห้องเรียนปกติ ม.1)</p>
+                        <div class="countdown-container"></div>
+                    </div>
+                </div>
     
-
-                <div class="container left">
-                    <div class="content border-l-4 border-purple-500" data-start-date="2026-02-01">
-                        <h2>1 ก.พ. 2569</h2>
-                        <p class="school-name">โรงเรียนบางปะกอกวิทยาคม</p>
-                        <p>(ห้องเรียนปกติ ม.1)</p>
-						<p class="school-name">โรงเรียนราชวินิตบางแก้ว (ครั้งที่ 2)</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
+                <!-- Item 19: 1 ก.พ. 2569 (LEFT - RED) -->
+                <div class="timeline-container timeline-left">
+                    <div class="timeline-card-content border-r-8" style="border-right-color: var(--primary-theme);" data-start-date="2026-02-01">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">1 ก.พ. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนบางปะกอกวิทยาคม (ห้องเรียนปกติ ม.1)</p>
+						<p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนราชวินิตบางแก้ว (ครั้งที่ 2)</p>
+                        <div class="countdown-container"></div>
                     </div>
                 </div>
 
-				<div class="container right">
-                    <div class="content border-l-4 border-red-500" data-start-date="2026-01-31">
-                        <h2>8 ก.พ. 2569</h2>
-                        <p class="school-name">โรงเรียนบางปะกอกวิทยาคม</p>
-                        <p>(ห้องเรียนพิเศษ TEP/EP ม.1)</p>
-                        <div class="countdown-container mt-4 font-semibold"></div>
+				<!-- Item 20: 8 ก.พ. 2569 (RIGHT - BLUE) -->
+				<div class="timeline-container timeline-right">
+                    <div class="timeline-card-content border-l-8" style="border-left-color: var(--secondary-theme);" data-start-date="2026-02-08">
+                        <h2 class="text-2xl font-black mb-1" style="color: var(--primary-theme);">8 ก.พ. 2569</h2>
+                        <p class="font-bold" style="color: var(--secondary-theme);">โรงเรียนบางปะกอกวิทยาคม (ห้องเรียนพิเศษ TEP/EP ม.1)</p>
+                        <div class="countdown-container"></div>
                     </div>
                 </div>
             </div>
         </div>
 		
 		<script>
+        // Data for Application Timeline (to be rendered dynamically for alternating structure)
+        const applicationData = [
+            { name: "โรงเรียนเทพศิรินทร์ (DS Pre-test'69)", appDates: "12 ส.ค. – 25 พ.ย. 2568", examDates: "30 พ.ย. 2568", url: "https://www.facebook.com/share/p/1MSBUig4sr/", startDate: "2025-08-12", endDate: "2025-11-25T15:59:59" },
+            { name: "โรงเรียนเทพศิรินทร์ นนทบุรี (Pre-DSN ครั้งที่ 7)", appDates: "15 ก.ย. 2568 – 11 ม.ค. 2569", examDates: "24 ม.ค. 2569", url: "https://sites.google.com/tsn.ac.th/pretest68/%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%81%E0%B8%B2%E0%B8%A8%E0%B8%A3%E0%B8%9A%E0%B8%AA%E0%B8%A1%E0%B8%84%E0%B8%A3", startDate: "2025-09-15", endDate: "2026-01-11T15:59:59" },
+            { name: "โรงเรียนสวนกุหลาบวิทยาลัย ธนบุรี", appDates: "20 ก.ย. 2568 – 9 ม.ค. 2569", examDates: "17 - 18 ม.ค. 2569", url: "https://www.facebook.com/share/p/178R5bqk8C/?mibextid=wwXIfr", startDate: "2025-09-20", endDate: "2026-01-09T15:59:59" },
+            { name: "โรงเรียนรัตนโกสินทร์สมโภชบางขุนเทียน", appDates: "22 ก.ย. 2568 – 4 ม.ค. 2569", examDates: "10 - 11 ม.ค. 2569", url: "https://www.facebook.com/share/p/1FWPF3wiYR/", startDate: "2025-09-22", endDate: "2026-01-04T15:59:59" },
+            { name: "โรงเรียนสาธิต มศว. ประสานมิตร", appDates: "หลักสูตรไตรภาษา: 29 ก.ย. - 10 ต.ค. 2568 (สอบ 9 พ.ย. 2568) | หลักสูตรปกติ: 2 – 13 พ.ย. 2568 (สอบ 30 พ.ย. 2568)", url: "https://www.facebook.com/share/p/1978a6oS4i/", startDate: "2025-09-29", endDate: "2025-11-13T23:59:59", dualApp: true },
+            { name: "สมาคมผู้ปกครองและครูเตรียมอุดมศึกษา", appDates: "10 ต.ค. - 12 ธ.ค. 2568", examDates: "13 -14 ธ.ค. 2568 (online)", url: "https://www.facebook.com/share/17XkFFDT2h/", startDate: "2025-10-10", endDate: "2025-12-12T12:00" },
+            { name: "โรงเรียนสาธิตวัดพระศรีมหาธาตุ", appDates: "1 ต.ค. – 30 ต.ค. 2568", examDates: "2 พ.ย. 2568", url: "https://www.facebook.com/share/1M3y3VQKUj/?mibextid=wwXIfr", startDate: "2025-10-01", endDate: "2025-10-08T15:59:59", closed: true },
+            { name: "โรงเรียนสาธิตมหาวิทยาลัยราชภัฏพระนครศรีอยุธยา", appDates: "6 ต.ค. – 24 พ.ย. 2568", examDates: "10 ธ.ค. 2568", url: "https://www.facebook.com/share/p/1AoPqU5mhy/", startDate: "2025-10-06", endDate: "2025-11-24T15:59:59" },
+            { name: "โรงเรียนสาธิตสวนสุนันทา Pre-test ม.1 และม.4", appDates: "1 ต.ค. – 26 พ.ย. 2568 (จำกัด 200 ที่นั่ง)", examDates: "29 พ.ย. 2568", url: "https://regsd1.ssru.ac.th/", startDate: "2025-10-01", endDate: "2025-11-26T15:59:59" },
+            { name: "โรงเรียนดรุณสิกขาลัย", appDates: "วันนี้ – 28 พ.ย. 2568", examDates: "9 ธ.ค. 2568", url: "https://e-school.kmutt.ac.th/dsil/students-apply/?fbclid=IwdGRjcANTL8ljbGNrA1MvsGV4dG4DYWVtAjExAAEeQWvRmrvO-TwQ5cvZfYoPGaA009SGCOJGy7AkjUjoiqmHWWBK-AoQFasHOfw_aem_JNxc5RQECaVP4nKbuOAyEg", startDate: "2025-10-06", endDate: "2025-11-28T15:59:59" },
+            { name: "โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)", appDates: "1 ต.ค. – 25 ธ.ค. 2568", examDates: "10 – 11 ม.ค. 2569", url: "http://brushup.bodin.ac.th", startDate: "2025-10-01", endDate: "2025-12-25T15:59:59" },
+            { name: "โรงเรียนเตรียมอุดมศึกษาน้อมเกล้า", appDates: "1 ต.ค. 2568 – 3 ม.ค. 2569", examDates: "18 ม.ค. 2569", url: "https://www.tun.ac.th/news-detail_4430_189506", startDate: "2025-10-01", endDate: "2026-01-03T15:59:59" },
+            { name: "โรงเรียนหอวัง (Horwang Pre-Test 2026)", appDates: "1 ต.ค. 2568 – 7 ม.ค. 2569", examDates: "ห้องเรียนพิเศษ ม.1 และ ม.4: 17 ม.ค. 2569 | ห้องเรียนปกติ ม.1: 26 ม.ค. 2569", url: "https://www.facebook.com/share/p/19jerSn2wt/", startDate: "2025-10-01", endDate: "2026-01-07T15:59:59" },
+            { name: "โรงเรียนบางปะกอกวิทยาคม (Pre-BPK)", appDates: "1 ต.ค. 2568 – 25 ม.ค. 2569", examDates: "ห้องเรียนพิเศษ TEP/EP ม.1: 8 ก.พ. 2569 | ห้องเรียนปกติ ม.1: 1 ก.พ. 2569", url: "https://www.bpk.ac.th/", startDate: "2025-10-01", endDate: "2026-01-25T23:59:59" },
+            { name: "โรงเรียนฤทธิยะวรรณาลัย", appDates: "7 ต.ค. 2568 – 4 ม.ค. 2569", examDates: "18 ม.ค. 2569", url: "https://www.rittiya.ac.th/archives/20710", startDate: "2025-10-07", endDate: "2026-01-04T15:59:59" },
+            { name: "โรงเรียนเตรียมอุดมศึกษาพัฒนาการ นนทบุรี", appDates: "10 ต.ค. 2568 – 15 ม.ค. 2569", examDates: "25 ม.ค. 2569", url: "https://tpn.ac.th/?fbclid=IwY2xjawNb3olleHRuA2FlbQIxMABicmlkETE4TDhIZjZZTzlnNmpKN3RDAR6c7ugN4R_EQ6rbDcWTUEIVqRFXK0MoSJMgtkpj1xbBaO33OQCUagFLOpEYqQ_aem_5u6tkAPOcsKTxgr8c_yrJg", startDate: "2025-10-10", endDate: "2026-01-15T15:59:59" },
+            { name: "โรงเรียนสาธิต มศว. ปทุมวัน", appDates: "20 ต.ค. – 30 ต.ค. 2568", examDates: "8 พ.ย. 2568", url: "http://www.satitpatumwan.ac.th", startDate: "2025-10-20", endDate: "2025-10-30T15:59:59" },
+            { name: "โรงเรียนสามเสนวิทยาลัย", appDates: "25 ต.ค. – 23 พ.ย. 2568", examDates: "13 – 14 ธ.ค. 2568 (On-site & Online)", url: "https://www.facebook.com/share/p/15ea2XZtzW/", startDate: "2025-10-25", endDate: "2025-11-23T15:59:59" },
+            { name: "โรงเรียนราชวินิตบางแก้ว", appDates: "27 ต.ค. – 26 ธ.ค. 2568", examDates: "ครั้งที่ 1: 18 ม.ค. 2569 | ครั้งที่ 2: 1 ก.พ. 2569", url: "https://www.facebook.com/share/p/17dFkDdp52/", startDate: "2025-10-27", endDate: "2025-12-26T15:59:59" },
+            { name: "โรงเรียนสตรีวิทยา", appDates: "28 ต.ค. – 8 ธ.ค. 2568", examDates: "20 – 21 ธ.ค. 2568 (On-site & Online)", url: "https://www.facebook.com/share/p/1PPgdonWTG/", startDate: "2025-10-28", endDate: "2025-12-08T15:59:59" },
+            { name: "โรงเรียนสาธิต ม.รามคำแหง (ฝ่ายมัธยม)", appDates: "รอบ 1: 1 พ.ย. - 16 ธ.ค. 2568 | รอบ 2: 5 - 13 ม.ค. 2569", examDates: "18 ม.ค. 2569", url: "http://www.ds.ru.ac.th", startDate: "2025-11-01", endDate: "2026-01-13T15:59:59", dualApp: true },
+            { name: "โรงเรียนสารวิทยา Ptr-test ม.1 และม.4", appDates: "3 พ.ย. 2568 - 4 ม.ค. 2569", examDates: "11 ม.ค. 2569 (ม.1 & ม.4)", url: "https://m.facebook.com/story.php?story_fbid=pfbid0NB4YG44d71jKgz8y12akEAujXJLBdhhXSQzWG5HGCdqVRxiWjY2hDebVN9o9dckgl&id=100057236898075&mibextid=NOb6eG", startDate: "2025-11-03", endDate: "2026-01-04T15:59:59" },
+            { name: "โรงเรียนสวนกุหลาบวิทยาลัย นนทบุรี", appDates: "15 พ.ย. 2568 - 18 ม.ค. 2569", examDates: "25 ม.ค. 2569 (ห้องเรียนปกติ & ห้องเรียนพิเศษ)", url: "https://www.facebook.com/share/p/1BL8Gj9eKe/", startDate: "2025-11-15", endDate: "2026-01-18T15:59:59" },
+            { name: "โรงเรียนสวนกุหลาบวิทยาลัย รังสิต", appDates: "17 พ.ย. 2568 - 25 ธ.ค. 2568", examDates: "18 ม.ค. 2569", url: "https://www.facebook.com/share/p/1Z48qTmsrq/", startDate: "2025-11-17", endDate: "2025-12-25T15:59:59" },
+            { name: "โรงเรียนนวมินทราชินูทิศ สตรีวิทยา พุทธมณฑล (SW3)", appDates: "17 พ.ย. 2568 - 13 ม.ค. 2569", examDates: "Pre-M.1: 18 ม.ค. 2569 | Pre-M.4: 17 ม.ค. 2569", url: "https://www.facebook.com/share/p/17affUr3XL/", startDate: "2025-11-17", endDate: "2026-01-13T15:59:59" },
+            { name: "โรงเรียนศึกษานารี", appDates: "17 พ.ย. 2568 - 7 ม.ค. 2569", examDates: "17 ม.ค. 2569 (ห้องเรียนปกติ & ห้องเรียนพิเศษ)", url: "https://www.facebook.com/share/p/1GUC64FMox/", startDate: "2025-11-17", endDate: "2026-01-07T15:59:59" },
+            { name: "โรงเรียนสายปัญญารังสิต", appDates: "12 ธ.ค. 2568 - 11 ม.ค. 2569", examDates: "16 ม.ค. 2569", url: "https://www.facebook.com/share/p/17LHPvJ3Sk/", startDate: "2025-12-12", endDate: "2026-01-11T15:59:59" },
+            { name: "โรงเรียนวัดสุทธิวราราม", appDates: "1 ต.ค. – 23 ม.ค. 2569", examDates: "25 ม.ค. 2569", url: "httpss://suthi.ac.th/news/11450/", startDate: "2025-10-01", endDate: "2026-01-23T15:59:59" },
+            { name: "โรงเรียนโพธิสารพิทยากร (PRETEST 2026)", appDates: "17 พ.ย. 2568 - 18 ม.ค. 2569", examDates: "PSIP PRE-TEST: 24 ม.ค. 2569 | PS PRE-TEST: 25 ม.ค. 2569", url: "https://www.facebook.com/share/p/1A9z6DowQy/", startDate: "2025-11-17", endDate: "2026-01-18T15:59:59" },
+            { name: "โรงเรียนสตรีวิทยา 2 ในพระราชูปถัมภ์ฯ (SW2)", appDates: "5 ธ.ค. 2568 - 15 ม.ค. 2569", examDates: "ปกติ ม.1 และ ม.4: 24 ม.ค. 2569 | พิเศษ ม.1 และ ม.4: 25 ม.ค. 2569", url: "https://www.facebook.com/share/p/1FrNhss6aD/", startDate: "2025-12-05", endDate: "2026-01-15T15:59:59" }
+        ];
+
+        // Function to render application data into the dual-side timeline structure
+        function renderApplicationTimeline() {
+            const container = document.getElementById('application-timeline-content');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            applicationData.forEach((item, index) => {
+                const isLeft = index % 2 === 0;
+                const positionClass = isLeft ? 'timeline-left' : 'timeline-right';
+                const borderSide = isLeft ? 'border-r-8' : 'border-l-8';
+                const borderColor = isLeft ? 'var(--primary-theme)' : 'var(--secondary-theme)';
+                const buttonColor = isLeft ? 'var(--primary-theme)' : 'var(--secondary-theme)';
+                const buttonHover = isLeft ? 'hover:bg-pink-800' : 'hover:bg-yellow-600';
+
+                // Handle specific dual application date display (Satit Prasarnmit, Satit Ram)
+                let appDetailsHtml;
+                if (item.dualApp) {
+                    // Extract data from appDates string (simple split for demonstration)
+                    const parts = item.appDates.split('|').map(p => p.trim());
+                    appDetailsHtml = parts.map((part, i) => {
+                        const [label, dates] = part.split(':').map(p => p.trim());
+                        const subStartDate = item.startDate; // Simplification, actual dates should be complex data structure
+                        let subEndDate = item.endDate; // Simplification, using main end date
+                        
+                        // For Satit Prasarnmit, manually assign sub-end dates for demonstration
+                        if (item.name.includes("ประสานมิตร") && i === 0) subEndDate = "2025-10-10T23:59:59";
+                        if (item.name.includes("ประสานมิตร") && i === 1) subEndDate = "2025-11-13T23:59:59";
+                        if (item.name.includes("รามคำแหง") && i === 0) subEndDate = "2025-12-16T15:59:59";
+                        if (item.name.includes("รามคำแหง") && i === 1) subEndDate = "2026-01-13T15:59:59";
+
+                        return `
+                            <div class="pt-2" data-start-date="${subStartDate}" data-end-date="${subEndDate}">
+                                <p><strong class="font-semibold" style="color: ${i % 2 === 0 ? 'var(--primary-theme)' : 'var(--secondary-theme)'};">• ${label}:</strong></p>
+                                <p class="ml-4 text-gray-700 font-medium"><strong class="font-semibold">🗓️ รับสมัคร:</strong> ${dates}</p>
+                                <div class="countdown-container mt-2 ml-4"></div>
+                                ${i === 0 ? '<hr class="my-4 border-gray-200">' : ''}
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    appDetailsHtml = `
+                        <div class="space-y-2 text-gray-700 font-medium">
+                            <p><strong class="font-semibold">🗓️ วันรับสมัคร:</strong> ${item.appDates}</p>
+                            <p><strong class="font-semibold">📝 วันสอบ:</strong> ${item.examDates}</p>
+                        </div>
+                        <div class="countdown-container mt-4" data-start-date="${item.startDate}" data-end-date="${item.endDate}"></div>
+                    `;
+                }
+                
+                // Button style based on closed status
+                const buttonClass = item.closed 
+                    ? 'bg-gray-400 text-white font-semibold py-2 px-4 rounded-full text-sm cursor-not-allowed'
+                    : `bg-[${buttonColor}] text-white font-semibold py-2 px-4 rounded-full text-sm transition-colors shadow-md ${buttonHover}`;
+
+                const buttonText = item.closed ? 'ปิดรับสมัคร' : 'ดูรายละเอียด';
+
+
+                const html = `
+                    <div class="timeline-container ${positionClass}">
+                        <div class="timeline-card-content ${borderSide}" style="border-${isLeft ? 'right' : 'left'}-color: ${borderColor};">
+                            <h2 class="text-xl font-bold text-gray-900 mb-2">${item.name}</h2>
+                            ${item.closed ? '<p class="text-md font-bold text-red-700 mb-3 bg-red-100 p-2 rounded-lg inline-block">📢 ปิดรับสมัคร!! เนื่องจากครบจำนวนรับแล้ว</p>' : ''}
+                            ${appDetailsHtml}
+                            <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 ${buttonClass}" style="background-color: ${buttonColor};">
+                                ${buttonText}
+                            </a>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+        
 		document.addEventListener('DOMContentLoaded', () => {
-		  const colors = ['#2980B9', '#C2185B', '#800000', '#4B0082'];
-		  const icons = ['🏫', '🎓', '⭐', '📍'];
+            // Render the application timeline on load
+            renderApplicationTimeline();
+        });
 		
-		  document.querySelectorAll('.school-name').forEach(el => {
-		    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-		    const randomIcon = icons[Math.floor(Math.random() * icons.length)];
-		
-		    const icon = document.createElement('span');
-		    icon.textContent = randomIcon + ' ';
-		    el.prepend(icon);
-		
-		    el.style.color = randomColor;
-		  });
-		});
-		</script>
-		
-        <p style="text-align: center; margin-top: 50px; font-size: 0.85em; color: #C2185B;">**หมายเหตุ:** วันที่อาจมีการเปลี่ยนแปลง โปรดตรวจสอบข้อมูลล่าสุดจากประกาศของโรงเรียนโดยตรงอีกครั้ง</p>
-    </div>
-    
-    <footer class="text-center mt-12 p-8 bg-white rounded-xl shadow-lg text-gray-700 text-lg font-medium">
+        // Function to update the current date in Thai Buddhist Era
+        function updateCurrentDate() {
+            const dateElement = document.getElementById('current-date-info');
+            if (!dateElement) return;
+
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Bangkok' };
+            const formatter = new Intl.DateTimeFormat('th-TH', options);
+            const thaiDate = formatter.format(today);
+
+            dateElement.textContent = `ข้อมูล ณ วันที่: ${thaiDate}`;
+        }
         
-        <p class="text-base md:text-lg mb-1">รวบรวมข้อมูลเพื่อความสะดวกในการวางแผนของผู้ปกครองและนักเรียน</p>
-        <p class="text-base md:text-lg mb-6 text-red-500 font-semibold">กรุณาตรวจสอบข้อมูลล่าสุดจากประกาศของโรงเรียนโดยตรงอีกครั้ง</p>
-
-        <div class="space-y-2">
-            <p class="text-xl md:text-2xl font-black text-green-700">
-                จัดทำโดย...ลุ้นสอวอไปด้วยกันนะ
-            </p>
-            <p class="text-2xl md:text-3xl font-extrabold text-pink-700">
-                ครอบครัวยอดนารี❤️สตรีวิทยา
-            </p>
-        </div>
-
-        <a href="https://shorturl.asia/BlJVn" target="_blank" class="inline-flex items-center justify-center gap-2 mt-6 px-6 py-3 bg-green-500 text-white rounded-full transition duration-300 hover:bg-green-600 shadow-md hover:shadow-lg transform hover:scale-105">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16.29,14.68,14.68,13,13,14.68l-1.61-1.6,2.28-2.29a1,1,0,0,0,0-1.42,1,1,0,0,0-1.42,0L10,11.6,8.38,10,10,8.38l-1.6-1.61L6.1,9.05a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L9.05,9,10.7,10.7,9,12.38l1.6,1.61,2.29-2.28a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm5.63-3.25a10,10,0,1,0-17.84,6,1,1,0,0,0,.62,1,8.4,8.4,0,0,1,3.47,.81,1,1,0,0,0,1-.6A6.44,6.44,0,0,1,15.1,16a1,1,0,0,0,.86.49,1,1,0,0,0,.52-.15,8.4,8.4,0,0,1,4.24-2.22,1,1,0,0,0,.7-1.29Z"/></svg>
-            <span class="text-xl font-bold">LINE OPC</span>
-        </a>
-        
-    </footer>
-
-    <script>
         function openTab(evt, tabName) {
             var i, tabContent, tabButtons;
             
-            // ซ่อนเนื้อหาของทุกแท็บ
             tabContent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabContent.length; i++) {
                 tabContent[i].style.display = "none";
                 tabContent[i].classList.remove("active");
             }
             
-            // ลบ class "active" ออกจากปุ่มทั้งหมด
             tabButtons = document.getElementsByClassName("tab-button");
             for (i = 0; i < tabButtons.length; i++) {
                 tabButtons[i].classList.remove("active");
             }
             
-            // แสดงเนื้อหาของแท็บที่เลือก และกำหนด class "active" ให้ปุ่ม
             document.getElementById(tabName).style.display = "block";
             document.getElementById(tabName).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
         
-        // กำหนดให้แท็บ 'วันรับสมัคร' เป็นแท็บเริ่มต้น
+        // Countdown and Date Initialization
         document.addEventListener("DOMContentLoaded", function() {
+            // Set initial active tab
             document.getElementsByClassName("tab-button")[0].click();
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // ค้นหาทุกกล่องที่มี class 'countdown-container'
+            
+            // Update current date
+            updateCurrentDate();
+            
+            // Countdown Logic (Enhanced Display - Day Hour Minute only)
             const countdownElements = document.querySelectorAll('.countdown-container');
 
             countdownElements.forEach(container => {
-                // หา element แม่ที่มี data-attributes
-                const parentBox = container.closest('[data-start-date]');
-                if (!parentBox) {
-                    return;
-                }
+                const dataElement = container.closest('[data-start-date], .timeline-card-content');
+                if (!dataElement) return;
 
-                const startDateStr = parentBox.dataset.startDate;
-                const endDateStr = parentBox.dataset.endDate; // จะเป็น undefined ถ้าไม่มี data-end-date
+                const startDateStr = dataElement.dataset.startDate;
+                const endDateStr = dataElement.dataset.endDate;
                 
-                // อัปเดต Countdown ทุกๆ 1 วินาที
+                // Update Countdown every 1 second
                 const interval = setInterval(() => {
                     const now = new Date().getTime();
                     const startDate = new Date(startDateStr).getTime();
                     
                     let distance;
                     let messagePrefix;
-                    let messageColorClass;
+                    let colorClass;
                     let isExpired = false;
 
                     if (endDateStr) {
-                        // Logic สำหรับ "วันรับสมัคร" (มีวันเริ่มต้นและสิ้นสุด)
+                        // Application Logic
                         const endDate = new Date(endDateStr).getTime();
                         if (now < startDate) {
                             distance = startDate - now;
-                            messagePrefix = 'จะเปิดรับสมัครในอีก:';
-                            messageColorClass = 'text-blue-600';
+                            messagePrefix = 'จะเปิดรับสมัครในอีก';
+                            colorClass = 'text-blue-600 border-blue-400';
                         } else if (now <= endDate) {
                             distance = endDate - now;
-                            messagePrefix = 'เหลือเวลาสมัครอีก:';
-                            messageColorClass = 'text-red-600';
+                            messagePrefix = 'เหลือเวลาสมัครอีก';
+                            colorClass = 'text-red-600 border-red-400';
                         } else {
                             isExpired = true;
-                            container.innerHTML = '<span class="text-gray-500">สิ้นสุดการรับสมัครแล้ว</span>';
+                            container.innerHTML = '<span class="text-gray-500 font-bold p-2 bg-gray-200 rounded-lg">✅ สิ้นสุดการรับสมัครแล้ว</span>';
                         }
                     } else {
-                        // Logic สำหรับ "วันสอบ" (มีแค่วันเริ่มต้น)
+                        // Exam Logic
                         if (now < startDate) {
                             distance = startDate - now;
-                            messagePrefix = 'จะเริ่มสอบในอีก:';
-                            messageColorClass = 'text-green-600';
+                            messagePrefix = 'จะเริ่มสอบในอีก';
+                            colorClass = 'text-green-600 border-green-400';
                         } else {
                             isExpired = true;
-                            container.innerHTML = '<span class="text-gray-500">สิ้นสุดกำหนดการสอบแล้ว</span>';
+                            container.innerHTML = '<span class="text-gray-500 font-bold">สิ้นสุดกำหนดการสอบแล้ว</span>';
                         }
                     }
                     
@@ -998,16 +613,58 @@
                     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
                     
+                    // HTML structure for Day Hour Minute display
                     container.innerHTML = `
-                        <span class="${messageColorClass}">
-                            ${messagePrefix} ${days} วัน ${hours} ชั่วโมง ${minutes} นาที ${seconds} วินาที
-                        </span>
+                        <div class="countdown-display flex flex-col sm:flex-row items-center justify-between gap-3 ${colorClass}">
+                            <span class="text-base font-extrabold text-gray-700 whitespace-nowrap">${messagePrefix}:</span>
+                            <div class="countdown-units-wrapper flex justify-center sm:justify-start gap-3 w-full sm:w-auto"> 
+                                <!-- Days -->
+                                <div class="countdown-time-unit flex flex-col items-center">
+                                    <span class="countdown-digit ${colorClass}">${days}</span>
+                                    <span class="text-xs font-semibold text-gray-500">วัน</span>
+                                </div>
+                                <!-- Hours -->
+                                <div class="countdown-time-unit flex flex-col items-center">
+                                    <span class="countdown-digit ${colorClass}">${hours}</span>
+                                    <span class="text-xs font-semibold text-gray-500">ชม.</span>
+                                </div>
+                                <!-- Minutes -->
+                                <div class="countdown-time-unit flex flex-col items-center">
+                                    <span class="countdown-digit ${colorClass}">${minutes}</span>
+                                    <span class="text-xs font-semibold text-gray-500">น.</span>
+                                </div>
+                            </div>
+                        </div>
                     `;
                 }, 1000);
             });
         });
     </script>
+    
+    <p class="text-center font-medium mt-10 text-gray-600">**หมายเหตุ:** วันที่อาจมีการเปลี่ยนแปลง โปรดตรวจสอบข้อมูลล่าสุดจากประกาศของโรงเรียนโดยตรงอีกครั้ง</p>
+
+    <footer class="text-center mt-12 p-8 bg-white rounded-xl shadow-xl border-t-4 border-gray-200">
+        
+        <p class="text-base md:text-lg mb-1 text-gray-500">รวบรวมข้อมูลเพื่อความสะดวกในการวางแผนของผู้ปกครองและนักเรียน</p>
+        <p class="text-lg md:text-xl mb-6 font-bold" style="color: var(--primary-theme);">
+            กรุณาตรวจสอบข้อมูลล่าสุดจากประกาศของโรงเรียนโดยตรงอีกครั้ง
+        </p>
+
+        <div class="space-y-2 mb-6">
+            <p class="text-xl md:text-2xl font-black" style="color: var(--primary-theme);">
+                จัดทำโดย...ลุ้นสอวอไปด้วยกันนะ
+            </p>
+        </div>
+
+        <!-- LINE OPC Link - Enhanced Design -->
+        <a href="https://shorturl.asia/BlJVn" target="_blank" class="inline-flex items-center justify-center gap-3 mt-4 px-8 py-3 rounded-full transition duration-300 transform hover:scale-105 shadow-lg font-extrabold" style="background-color: var(--secondary-theme); color: var(--primary-theme); border: 2px solid var(--primary-theme);">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M16.29,14.68,14.68,13,13,14.68l-1.61-1.6,2.28-2.29a1,1,0,0,0,0-1.42,1,1,0,0,0-1.42,0L10,11.6,8.38,10,10,8.38l-1.6-1.61L6.1,9.05a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L9.05,9,10.7,10.7,9,12.38l1.6,1.61,2.29-2.28a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm5.63-3.25a10,10,0,1,0-17.84,6,1,1,0,0,0,.62,1,8.4,8.4,0,0,1,3.47,.81,1,1,0,0,0,1-.6A6.44,6.44,0,0,1,15.1,16a1,1,0,0,0,.86.49,1,1,0,0,0,.52-.15,8.4,8.4,0,0,1,4.24-2.22,1,1,0,0,0,.7-1.29Z"/></svg>
+            <span class="text-xl">LINE OPC: ครอบครัวยอดนารี❤️สตรีวิทยา</span>
+        </a>
+        
+    </footer>
+
 </body>
 </html>
+

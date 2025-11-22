@@ -129,7 +129,7 @@
         /* Hiding Pointers for cleaner look */
         .timeline-container::before { content: none !important; }
 
-        /* Countdown Style */
+        /* Countdown Style - Adjustments for Boxed Digits */
         .countdown-display {
             background-color: #F0F4F8; /* Soft blueish gray */
             border-radius: 12px;
@@ -138,14 +138,19 @@
             border: 2px dashed;
         }
         .countdown-time-unit {
-            background-color: #E8EDF2; /* Slightly darker unit background */
+            /* Distinct Box Styling */
+            background-color: white; 
             border-radius: 8px;
-            padding: 8px 12px;
+            padding: 6px 8px; 
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+            min-width: 48px; 
+            text-align: center;
         }
         .countdown-digit {
-            font-size: 1.5rem;
-            line-height: 1;
+            font-size: 1.5rem; 
+            line-height: 1.2;
             font-weight: 800;
+            display: block; 
         }
         
         /* Responsive adjustments */
@@ -165,9 +170,16 @@
             .timeline-right::after { left: 14px; }
             
             .countdown-display { flex-direction: column; align-items: stretch; }
-            .countdown-time-unit { width: 100%; text-align: center; }
             .countdown-units-wrapper { justify-content: space-between; gap: 8px; }
-            .countdown-time-unit { margin: 4px 0; }
+            
+            .countdown-time-unit { 
+                min-width: 40px; 
+                padding: 4px 6px; 
+            }
+
+            .countdown-digit {
+                font-size: 1.3rem; /* Further reduced size for mobile fit */
+            }
             
             .timeline-card-content { border-left-width: 4px !important; border-right-width: 0 !important; }
         }
@@ -413,16 +425,17 @@
             { name: "โรงเรียนสวนกุหลาบวิทยาลัย ธนบุรี", appDates: "20 ก.ย. 2568 – 9 ม.ค. 2569", examDates: "17 - 18 ม.ค. 2569", url: "https://www.facebook.com/share/p/178R5bqk8C/?mibextid=wwXIfr", startDate: "2025-09-20", endDate: "2026-01-09T15:59:59" },
             { name: "โรงเรียนรัตนโกสินทร์สมโภชบางขุนเทียน", appDates: "22 ก.ย. 2568 – 4 ม.ค. 2569", examDates: "10 - 11 ม.ค. 2569", url: "https://www.facebook.com/share/p/1FWPF3wiYR/", startDate: "2025-09-22", endDate: "2026-01-04T15:59:59" },
             { name: "โรงเรียนสาธิต มศว. ประสานมิตร", appDates: "หลักสูตรไตรภาษา: 29 ก.ย. - 10 ต.ค. 2568 (สอบ 9 พ.ย. 2568) | หลักสูตรปกติ: 2 – 13 พ.ย. 2568 (สอบ 30 พ.ย. 2568)", url: "https://www.facebook.com/share/p/1978a6oS4i/", startDate: "2025-09-29", endDate: "2025-11-13T23:59:59", dualApp: true },
-            { name: "สมาคมผู้ปกครองและครูเตรียมอุดมศึกษา", appDates: "10 ต.ค. - 12 ธ.ค. 2568", examDates: "13 -14 ธ.ค. 2568 (online)", url: "https://www.facebook.com/share/17XkFFDT2h/", startDate: "2025-10-10", endDate: "2025-12-12T12:00" },
             { name: "โรงเรียนสาธิตวัดพระศรีมหาธาตุ", appDates: "1 ต.ค. – 30 ต.ค. 2568", examDates: "2 พ.ย. 2568", url: "https://www.facebook.com/share/1M3y3VQKUj/?mibextid=wwXIfr", startDate: "2025-10-01", endDate: "2025-10-08T15:59:59", closed: true },
-            { name: "โรงเรียนสาธิตมหาวิทยาลัยราชภัฏพระนครศรีอยุธยา", appDates: "6 ต.ค. – 24 พ.ย. 2568", examDates: "10 ธ.ค. 2568", url: "https://www.facebook.com/share/p/1AoPqU5mhy/", startDate: "2025-10-06", endDate: "2025-11-24T15:59:59" },
-            { name: "โรงเรียนสาธิตสวนสุนันทา Pre-test ม.1 และม.4", appDates: "1 ต.ค. – 26 พ.ย. 2568 (จำกัด 200 ที่นั่ง)", examDates: "29 พ.ย. 2568", url: "https://regsd1.ssru.ac.th/", startDate: "2025-10-01", endDate: "2025-11-26T15:59:59" },
-            { name: "โรงเรียนดรุณสิกขาลัย", appDates: "วันนี้ – 28 พ.ย. 2568", examDates: "9 ธ.ค. 2568", url: "https://e-school.kmutt.ac.th/dsil/students-apply/?fbclid=IwdGRjcANTL8ljbGNrA1MvsGV4dG4DYWVtAjExAAEeQWvRmrvO-TwQ5cvZfYoPGaA009SGCOJGy7AkjUjoiqmHWWBK-AoQFasHOfw_aem_JNxc5RQECaVP4nKbuOAyEg", startDate: "2025-10-06", endDate: "2025-11-28T15:59:59" },
             { name: "โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)", appDates: "1 ต.ค. – 25 ธ.ค. 2568", examDates: "10 – 11 ม.ค. 2569", url: "http://brushup.bodin.ac.th", startDate: "2025-10-01", endDate: "2025-12-25T15:59:59" },
             { name: "โรงเรียนเตรียมอุดมศึกษาน้อมเกล้า", appDates: "1 ต.ค. 2568 – 3 ม.ค. 2569", examDates: "18 ม.ค. 2569", url: "https://www.tun.ac.th/news-detail_4430_189506", startDate: "2025-10-01", endDate: "2026-01-03T15:59:59" },
             { name: "โรงเรียนหอวัง (Horwang Pre-Test 2026)", appDates: "1 ต.ค. 2568 – 7 ม.ค. 2569", examDates: "ห้องเรียนพิเศษ ม.1 และ ม.4: 17 ม.ค. 2569 | ห้องเรียนปกติ ม.1: 26 ม.ค. 2569", url: "https://www.facebook.com/share/p/19jerSn2wt/", startDate: "2025-10-01", endDate: "2026-01-07T15:59:59" },
             { name: "โรงเรียนบางปะกอกวิทยาคม (Pre-BPK)", appDates: "1 ต.ค. 2568 – 25 ม.ค. 2569", examDates: "ห้องเรียนพิเศษ TEP/EP ม.1: 8 ก.พ. 2569 | ห้องเรียนปกติ ม.1: 1 ก.พ. 2569", url: "https://www.bpk.ac.th/", startDate: "2025-10-01", endDate: "2026-01-25T23:59:59" },
+            { name: "โรงเรียนวัดสุทธิวราราม", appDates: "1 ต.ค. – 23 ม.ค. 2569", examDates: "25 ม.ค. 2569", url: "httpss://suthi.ac.th/news/11450/", startDate: "2025-10-01", endDate: "2026-01-23T15:59:59" },
+            { name: "โรงเรียนสาธิตสวนสุนันทา Pre-test ม.1 และม.4", appDates: "1 ต.ค. – 26 พ.ย. 2568 (จำกัด 200 ที่นั่ง)", examDates: "29 พ.ย. 2568", url: "https://regsd1.ssru.ac.th/", startDate: "2025-10-01", endDate: "2025-11-26T15:59:59" },
+            { name: "โรงเรียนสาธิตมหาวิทยาลัยราชภัฏพระนครศรีอยุธยา", appDates: "6 ต.ค. – 24 พ.ย. 2568", examDates: "10 ธ.ค. 2568", url: "https://www.facebook.com/share/p/1AoPqU5mhy/", startDate: "2025-10-06", endDate: "2025-11-24T15:59:59" },
+            { name: "โรงเรียนดรุณสิกขาลัย", appDates: "วันนี้ – 28 พ.ย. 2568", examDates: "9 ธ.ค. 2568", url: "https://e-school.kmutt.ac.th/dsil/students-apply/?fbclid=IwdGRjcANTL8ljbGNrA1MvsGV4dG4DYWVtAjExAAEeQWvRmrvO-TwQ5cvZfYoPGaA009SGCOJGy7AkjUjoiqmHWWBK-AoQFasHOfw_aem_JNxc5RQECaVP4nKbuOAyEg", startDate: "2025-10-06", endDate: "2025-11-28T15:59:59" },
             { name: "โรงเรียนฤทธิยะวรรณาลัย", appDates: "7 ต.ค. 2568 – 4 ม.ค. 2569", examDates: "18 ม.ค. 2569", url: "https://www.rittiya.ac.th/archives/20710", startDate: "2025-10-07", endDate: "2026-01-04T15:59:59" },
+            { name: "สมาคมผู้ปกครองและครูเตรียมอุดมศึกษา", appDates: "10 ต.ค. - 12 ธ.ค. 2568", examDates: "13 -14 ธ.ค. 2568 (online)", url: "https://www.facebook.com/share/17XkFFDT2h/", startDate: "2025-10-10", endDate: "2025-12-12T12:00" },
             { name: "โรงเรียนเตรียมอุดมศึกษาพัฒนาการ นนทบุรี", appDates: "10 ต.ค. 2568 – 15 ม.ค. 2569", examDates: "25 ม.ค. 2569", url: "https://tpn.ac.th/?fbclid=IwY2xjawNb3olleHRuA2FlbQIxMABicmlkETE4TDhIZjZZTzlnNmpKN3RDAR6c7ugN4R_EQ6rbDcWTUEIVqRFXK0MoSJMgtkpj1xbBaO33OQCUagFLOpEYqQ_aem_5u6tkAPOcsKTxgr8c_yrJg", startDate: "2025-10-10", endDate: "2026-01-15T15:59:59" },
             { name: "โรงเรียนสาธิต มศว. ปทุมวัน", appDates: "20 ต.ค. – 30 ต.ค. 2568", examDates: "8 พ.ย. 2568", url: "http://www.satitpatumwan.ac.th", startDate: "2025-10-20", endDate: "2025-10-30T15:59:59" },
             { name: "โรงเรียนสามเสนวิทยาลัย", appDates: "25 ต.ค. – 23 พ.ย. 2568", examDates: "13 – 14 ธ.ค. 2568 (On-site & Online)", url: "https://www.facebook.com/share/p/15ea2XZtzW/", startDate: "2025-10-25", endDate: "2025-11-23T15:59:59" },
@@ -434,10 +447,9 @@
             { name: "โรงเรียนสวนกุหลาบวิทยาลัย รังสิต", appDates: "17 พ.ย. 2568 - 25 ธ.ค. 2568", examDates: "18 ม.ค. 2569", url: "https://www.facebook.com/share/p/1Z48qTmsrq/", startDate: "2025-11-17", endDate: "2025-12-25T15:59:59" },
             { name: "โรงเรียนนวมินทราชินูทิศ สตรีวิทยา พุทธมณฑล (SW3)", appDates: "17 พ.ย. 2568 - 13 ม.ค. 2569", examDates: "Pre-M.1: 18 ม.ค. 2569 | Pre-M.4: 17 ม.ค. 2569", url: "https://www.facebook.com/share/p/17affUr3XL/", startDate: "2025-11-17", endDate: "2026-01-13T15:59:59" },
             { name: "โรงเรียนศึกษานารี", appDates: "17 พ.ย. 2568 - 7 ม.ค. 2569", examDates: "17 ม.ค. 2569 (ห้องเรียนปกติ & ห้องเรียนพิเศษ)", url: "https://www.facebook.com/share/p/1GUC64FMox/", startDate: "2025-11-17", endDate: "2026-01-07T15:59:59" },
-            { name: "โรงเรียนสายปัญญารังสิต", appDates: "12 ธ.ค. 2568 - 11 ม.ค. 2569", examDates: "16 ม.ค. 2569", url: "https://www.facebook.com/share/p/17LHPvJ3Sk/", startDate: "2025-12-12", endDate: "2026-01-11T15:59:59" },
-            { name: "โรงเรียนวัดสุทธิวราราม", appDates: "1 ต.ค. – 23 ม.ค. 2569", examDates: "25 ม.ค. 2569", url: "httpss://suthi.ac.th/news/11450/", startDate: "2025-10-01", endDate: "2026-01-23T15:59:59" },
             { name: "โรงเรียนโพธิสารพิทยากร (PRETEST 2026)", appDates: "17 พ.ย. 2568 - 18 ม.ค. 2569", examDates: "PSIP PRE-TEST: 24 ม.ค. 2569 | PS PRE-TEST: 25 ม.ค. 2569", url: "https://www.facebook.com/share/p/1A9z6DowQy/", startDate: "2025-11-17", endDate: "2026-01-18T15:59:59" },
-            { name: "โรงเรียนสตรีวิทยา 2 ในพระราชูปถัมภ์ฯ (SW2)", appDates: "5 ธ.ค. 2568 - 15 ม.ค. 2569", examDates: "ปกติ ม.1 และ ม.4: 24 ม.ค. 2569 | พิเศษ ม.1 และ ม.4: 25 ม.ค. 2569", url: "https://www.facebook.com/share/p/1FrNhss6aD/", startDate: "2025-12-05", endDate: "2026-01-15T15:59:59" }
+            { name: "โรงเรียนสตรีวิทยา 2 ในพระราชูปถัมภ์ฯ (SW2)", appDates: "5 ธ.ค. 2568 - 15 ม.ค. 2569", examDates: "ปกติ ม.1 และ ม.4: 24 ม.ค. 2569 | พิเศษ ม.1 และ ม.4: 25 ม.ค. 2569", url: "https://www.facebook.com/share/p/1FrNhss6aD/", startDate: "2025-12-05", endDate: "2026-01-15T15:59:59" },
+            { name: "โรงเรียนสายปัญญารังสิต", appDates: "12 ธ.ค. 2568 - 11 ม.ค. 2569", examDates: "16 ม.ค. 2569", url: "https://www.facebook.com/share/p/17LHPvJ3Sk/", startDate: "2025-12-12", endDate: "2026-01-11T15:59:59" }
         ];
 
         // Function to render application data into the dual-side timeline structure
@@ -445,6 +457,9 @@
             const container = document.getElementById('application-timeline-content');
             if (!container) return;
             container.innerHTML = '';
+
+            // Sort the data by startDate before rendering (Requirement 1)
+            applicationData.sort((a, b) => new Date(a.startDate) - new Date(b.startDate)); 
             
             applicationData.forEach((item, index) => {
                 const isLeft = index % 2 === 0;
@@ -456,15 +471,16 @@
 
                 // Handle specific dual application date display (Satit Prasarnmit, Satit Ram)
                 let appDetailsHtml;
+                // Complex dates must use the outer item's start/end dates for the main countdown logic if they are the most relevant ones.
                 if (item.dualApp) {
                     // Extract data from appDates string (simple split for demonstration)
                     const parts = item.appDates.split('|').map(p => p.trim());
                     appDetailsHtml = parts.map((part, i) => {
                         const [label, dates] = part.split(':').map(p => p.trim());
-                        const subStartDate = item.startDate; // Simplification, actual dates should be complex data structure
+                        let subStartDate = item.startDate; // Simplification, using main start date
                         let subEndDate = item.endDate; // Simplification, using main end date
                         
-                        // For Satit Prasarnmit, manually assign sub-end dates for demonstration
+                        // Manually define sub-end dates for accurate countdowns on specific rounds (if known)
                         if (item.name.includes("ประสานมิตร") && i === 0) subEndDate = "2025-10-10T23:59:59";
                         if (item.name.includes("ประสานมิตร") && i === 1) subEndDate = "2025-11-13T23:59:59";
                         if (item.name.includes("รามคำแหง") && i === 0) subEndDate = "2025-12-16T15:59:59";
@@ -492,7 +508,7 @@
                 // Button style based on closed status
                 const buttonClass = item.closed 
                     ? 'bg-gray-400 text-white font-semibold py-2 px-4 rounded-full text-sm cursor-not-allowed'
-                    : `bg-[${buttonColor}] text-white font-semibold py-2 px-4 rounded-full text-sm transition-colors shadow-md ${buttonHover}`;
+                    : `text-white font-semibold py-2 px-4 rounded-full text-sm transition-colors shadow-md ${buttonHover}`;
 
                 const buttonText = item.closed ? 'ปิดรับสมัคร' : 'ดูรายละเอียด';
 
@@ -620,24 +636,49 @@
                             <span class="text-base font-extrabold text-gray-700 whitespace-nowrap">${messagePrefix}:</span>
                             <div class="countdown-units-wrapper flex justify-center sm:justify-start gap-3 w-full sm:w-auto"> 
                                 <!-- Days -->
-                                <div class="countdown-time-unit flex flex-col items-center">
-                                    <span class="countdown-digit ${colorClass}">${days}</span>
-                                    <span class="text-xs font-semibold text-gray-500">วัน</span>
+                                <div class="flex flex-col items-center">
+                                    <div class="countdown-time-unit">
+                                        <span class="countdown-digit ${colorClass}">${days}</span>
+                                    </div>
+                                    <span class="text-xs font-semibold text-gray-500 mt-1">วัน</span>
                                 </div>
                                 <!-- Hours -->
-                                <div class="countdown-time-unit flex flex-col items-center">
-                                    <span class="countdown-digit ${colorClass}">${hours}</span>
-                                    <span class="text-xs font-semibold text-gray-500">ชม.</span>
+                                <div class="flex flex-col items-center">
+                                    <div class="countdown-time-unit">
+                                        <span class="countdown-digit ${colorClass}">${hours}</span>
+                                    </div>
+                                    <span class="text-xs font-semibold text-gray-500 mt-1">ชม.</span>
                                 </div>
                                 <!-- Minutes -->
-                                <div class="countdown-time-unit flex flex-col items-center">
-                                    <span class="countdown-digit ${colorClass}">${minutes}</span>
-                                    <span class="text-xs font-semibold text-gray-500">น.</span>
+                                <div class="flex flex-col items-center">
+                                    <div class="countdown-time-unit">
+                                        <span class="countdown-digit ${colorClass}">${minutes}</span>
+                                    </div>
+                                    <span class="text-xs font-semibold text-gray-500 mt-1">น.</span>
                                 </div>
                             </div>
                         </div>
                     `;
                 }, 1000);
+            });
+        });
+
+        // Function to randomly color school names and add icons (Exam tab only)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Colors list explicitly excludes yellow/gold tones.
+            const colors = ['#2980B9', '#C0392B', '#8E44AD', '#27AE60']; // Blue, Red, Purple, Green
+            const icons = ['🏫', '🎓', '⭐', '📍'];
+        
+            document.querySelectorAll('#exam .font-bold[style*="--secondary-theme"]').forEach(el => {
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+            
+                // Apply random color and icon
+                el.style.color = randomColor;
+            
+                const icon = document.createElement('span');
+                icon.textContent = randomIcon + ' ';
+                el.prepend(icon);
             });
         });
     </script>
@@ -657,9 +698,15 @@
             </p>
         </div>
 
-        <!-- LINE OPC Link - Enhanced Design -->
-        <a href="https://shorturl.asia/BlJVn" target="_blank" class="inline-flex items-center justify-center gap-3 mt-4 px-8 py-3 rounded-full transition duration-300 transform hover:scale-105 shadow-lg font-extrabold" style="background-color: var(--secondary-theme); color: var(--primary-theme); border: 2px solid var(--primary-theme);">
-            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M16.29,14.68,14.68,13,13,14.68l-1.61-1.6,2.28-2.29a1,1,0,0,0,0-1.42,1,1,0,0,0-1.42,0L10,11.6,8.38,10,10,8.38l-1.6-1.61L6.1,9.05a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L9.05,9,10.7,10.7,9,12.38l1.6,1.61,2.29-2.28a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm5.63-3.25a10,10,0,1,0-17.84,6,1,1,0,0,0,.62,1,8.4,8.4,0,0,1,3.47,.81,1,1,0,0,0,1-.6A6.44,6.44,0,0,1,15.1,16a1,1,0,0,0,.86.49,1,1,0,0,0,.52-.15,8.4,8.4,0,0,1,4.24-2.22,1,1,0,0,0,.7-1.29Z"/></svg>
+        <!-- LINE OPC Link - Enhanced Design using LINE Green and simplified icon -->
+        <a href="https://shorturl.asia/BlJVn" target="_blank" class="inline-flex items-center justify-center gap-3 mt-4 px-8 py-3 rounded-full transition duration-300 transform hover:scale-105 shadow-xl font-extrabold" style="background-color: #00B900; color: white; border: 3px solid var(--primary-theme);">
+            <!-- Simple LINE Chat Bubble Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 48 48">
+                <rect width="48" height="48" rx="8" fill="#00C300"/>
+                <path fill="white" d="M15 35h18c1.1 0 2-.9 2-2V15c0-1.1-.9-2-2-2H15c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2z"/>
+                <path fill="#00C300" d="M18 18h12v12H18z"/>
+                <path fill="white" d="M21 21h6v6H21z"/>
+            </svg>
             <span class="text-xl">LINE OPC: ครอบครัวยอดนารี❤️สตรีวิทยา</span>
         </a>
         
